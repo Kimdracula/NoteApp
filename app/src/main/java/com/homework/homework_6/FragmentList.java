@@ -13,10 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentList extends ListFragment {
-    FloatingActionButton floatingActionButton;
+    MaterialButton addNoteButton;
     AddFragment addFragment;
 
     @Nullable
@@ -38,8 +39,8 @@ public class FragmentList extends ListFragment {
                 android.R.layout.simple_list_item_1, catNames);
         setListAdapter(adapter);
 
-      floatingActionButton = view.findViewById(R.id.floatingActionButton);
-      floatingActionButton.setOnClickListener(new View.OnClickListener() {
+      addNoteButton = view.findViewById(R.id.buttonAddNote);
+      addNoteButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
               FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();

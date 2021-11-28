@@ -6,20 +6,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textViewAddNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Добавить заметку"
+        android:textSize="30sp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="10 Декабря, Пн" />
+
 
     <EditText
         android:id="@+id/editTextHead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:text="Заголовок" />
 
     <EditText
 
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Описание" />

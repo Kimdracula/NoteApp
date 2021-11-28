@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -35,6 +36,7 @@ public class FragmentList extends ListFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         addFragment = new AddFragment();
+        FragmentList fragmentList = new FragmentList();
         ListAdapter adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, catNames);
         setListAdapter(adapter);
@@ -44,7 +46,12 @@ public class FragmentList extends ListFragment {
           @Override
           public void onClick(View view) {
               FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_container,addFragment).commit();
+              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container,addFragment);
+
+              fragmentTransaction.addToBackStack("");
+              fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.commit();
           }
       });
     }

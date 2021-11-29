@@ -26,5 +26,16 @@ public class NoteFragment extends Fragment {
         TextView textViewHeader = view.findViewById(R.id.noteFragmentHeader);
         constants = new Constants();
 
-    }
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            constants = bundle.getParcelable("key");
+            textViewHeader.setText(constants.getHeader());
+
 }
+
+
+
+        }
+
+    }
+

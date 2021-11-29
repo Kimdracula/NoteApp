@@ -62,8 +62,13 @@ public class FragmentList extends ListFragment {
         super.onListItemClick(l, v, position, id);
 
 
+        Bundle result = new Bundle();
+        constants.setHeader(getListView().getItemAtPosition(position).toString());
 
-       constants.setHeader(getListView().getItemAtPosition(position).toString());
+        result.putParcelable("key",constants);
+        noteFragment.setArguments(result);
+
+
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container,noteFragment);

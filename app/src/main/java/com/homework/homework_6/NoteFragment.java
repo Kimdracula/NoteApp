@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class NoteFragment extends Fragment {
+public class NoteFragment extends Fragment implements Login {
     Constants constants;
 
     @Nullable
@@ -28,7 +28,7 @@ public class NoteFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            constants = bundle.getParcelable("key");
+            constants = bundle.getParcelable(login);
             textViewHeader.setText(constants.getHeader());
 
 }

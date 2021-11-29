@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 import com.google.android.material.button.MaterialButton;
 
-public class FragmentList extends ListFragment {
+public class FragmentList extends ListFragment implements Login {
     MaterialButton addNoteButton;
     AddFragment addFragment;
     NoteFragment noteFragment;
@@ -30,9 +30,9 @@ public class FragmentList extends ListFragment {
     }
 
     // определяем массив типа String
-    final String[] catNames = new String[]{"Рыжик", "Барсик", "Мурзик",
-            "Мурка", "Васька", "Томасина", "Кристина", "Пушок", "Дымка",
-            "Кузя", "Китти", "Масяня", "Симба"};
+    final String[] catNames = new String[]{"Заметка 1", "Заметка 2", "Заметка 3",
+            "Заметка 4", "Заметка 5", "Заметка 6", "Заметка 7", "Заметка 8", "Заметка 9",
+            "Заметка 10"};
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class FragmentList extends ListFragment {
         Bundle result = new Bundle();
         constants.setHeader(getListView().getItemAtPosition(position).toString());
 
-        result.putParcelable("key",constants);
+        result.putParcelable(login,constants);
         noteFragment.setArguments(result);
 
 

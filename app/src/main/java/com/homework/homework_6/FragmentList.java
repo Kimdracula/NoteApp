@@ -1,5 +1,6 @@
 package com.homework.homework_6;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class FragmentList extends ListFragment {
     AddFragment addFragment;
     NoteFragment noteFragment;
     Constants constants;
+    MainActivity mainActivity;
 
     @Nullable
     @Override
@@ -38,6 +40,7 @@ public class FragmentList extends ListFragment {
         addFragment = new AddFragment();
         noteFragment = new NoteFragment();
         constants = new Constants();
+        mainActivity = new MainActivity();
         ListAdapter adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, catNames);
         setListAdapter(adapter);
@@ -69,12 +72,25 @@ public class FragmentList extends ListFragment {
         noteFragment.setArguments(result);
 
 
+
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,noteFragment);
+
+        if (!checkLandOrient()){
+            fragmentTransaction.replace(R.id.fragment_container,noteFragment);
+        }
+        else{
+            fragmentTransaction.replace(R.id.fragment_note_container,noteFragment);
+        }
         fragmentTransaction.addToBackStack("");
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
 
     }
+
+    public Boolean checkLandOrient(){
+        int orientation = getResources().getConfiguration().orientation;
+        return orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
 }

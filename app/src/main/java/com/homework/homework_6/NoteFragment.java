@@ -32,10 +32,6 @@ public class NoteFragment extends Fragment {
             textViewHeader.setText(constants.getHeader());
 
 }
-
-
-
         }
-
     }
 

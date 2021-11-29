@@ -10,7 +10,7 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
     FragmentList fragmentList;
     AddFragment addFragment;
-
+    NoteFragment noteFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +18,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentList = new FragmentList();
         addFragment = new AddFragment();
+        noteFragment = new NoteFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (!checkLandOrient()){
-            fragmentManager.beginTransaction().add(R.id.fragment_container,fragmentList).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container,fragmentList).commit();
         }
 else{
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragmentList).commit();
-            fragmentManager.beginTransaction().add(R.id.fragment_add_note_container,addFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_note_container,noteFragment).commit();
 }
     }
 

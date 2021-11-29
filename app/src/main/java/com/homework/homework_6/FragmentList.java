@@ -6,20 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
-
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentList extends ListFragment {
     MaterialButton addNoteButton;
     AddFragment addFragment;
+    NoteFragment noteFragment;
+    Constants constants;
 
     @Nullable
     @Override
@@ -36,7 +36,8 @@ public class FragmentList extends ListFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         addFragment = new AddFragment();
-        FragmentList fragmentList = new FragmentList();
+        noteFragment = new NoteFragment();
+        constants = new Constants();
         ListAdapter adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, catNames);
         setListAdapter(adapter);
@@ -54,5 +55,21 @@ public class FragmentList extends ListFragment {
             fragmentTransaction.commit();
           }
       });
+    }
+
+    @Override
+    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+
+
+       constants.setHeader(getListView().getItemAtPosition(position).toString());
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,noteFragment);
+        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
+
     }
 }

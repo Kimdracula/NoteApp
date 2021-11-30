@@ -29,7 +29,6 @@ public class FragmentList extends ListFragment implements Login {
         return inflater.inflate(R.layout.fragmentlist,container,false);
     }
 
-    // определяем массив типа String
     final String[] catNames = new String[]{"Заметка 1", "Заметка 2", "Заметка 3",
             "Заметка 4", "Заметка 5", "Заметка 6", "Заметка 7", "Заметка 8", "Заметка 9",
             "Заметка 10"};

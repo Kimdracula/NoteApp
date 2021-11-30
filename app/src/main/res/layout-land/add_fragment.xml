@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_fragmentID"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewAddNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Добавить заметку"
+        android:textSize="30sp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="10 Декабря, Пн" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSetDate"
+        android:layout_width="0dp"
+        android:layout_gravity="center_horizontal"
+        app:cornerRadius="70dp"
+        android:layout_height="0dp"
+        android:text="Установить дату" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+style="@style/MyDatePickerStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"/>
+
+    <EditText
+        android:id="@+id/editTextHead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="Заголовок" />
+
+    <EditText
+
+        android:id="@+id/editTextDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Описание" />
+
+</LinearLayout>

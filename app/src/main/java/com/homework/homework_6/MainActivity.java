@@ -20,17 +20,7 @@ public class MainActivity extends AppCompatActivity {
         addFragment = new AddFragment();
         noteFragment = new NoteFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (!checkLandOrient()){
-            fragmentManager.beginTransaction().replace(R.id.fragment_container,fragmentList).commit();
-        }
-else{
-            fragmentManager.beginTransaction().replace(R.id.fragment_container,fragmentList).commit();
-            fragmentManager.beginTransaction().replace(R.id.fragment_note_container,noteFragment).commit();
-}
-    }
+        fragmentManager.beginTransaction().replace(R.id.fragment_container,fragmentList).commit();
 
-    public Boolean checkLandOrient(){
-        int orientation = getResources().getConfiguration().orientation;
-        return orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

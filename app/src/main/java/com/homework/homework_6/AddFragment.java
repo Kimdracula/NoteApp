@@ -14,12 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.util.Calendar;
 
 public class AddFragment extends Fragment {
     EditText headerText;
     EditText description;
-    Button setDateButton;
+    MaterialButton setDateButton;
     DatePicker datePicker;
     TextView textViewSetDate;
 
@@ -33,11 +35,21 @@ public class AddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
        headerText = view.findViewById(R.id.editTextHead);
         description = view.findViewById(R.id.editTextDescription);
         setDateButton = view.findViewById(R.id.buttonSetDate);
         datePicker = view.findViewById(R.id.datePicker);
         textViewSetDate = view.findViewById(R.id.textViewDate);
+        initViews();
+    }
+
+
+
+
+    public void initViews(){
+        datePicker.setCalendarViewShown(false);
         Calendar today = Calendar.getInstance();
         datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
                 today.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
@@ -45,9 +57,6 @@ public class AddFragment extends Fragment {
                     @Override
                     public void onDateChanged(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                        Toast.makeText(getContext(),
-                                "Дата установлена", Toast.LENGTH_SHORT).show();
-
                         textViewSetDate.setText("Год: " + year + " " + "Месяц: "
                                 + (monthOfYear + 1) + " " + "День: " + dayOfMonth);
                     }
@@ -57,11 +66,9 @@ public class AddFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                setDateButton.setText(new StringBuilder()
-                        // Месяц отсчитывается с 0, поэтому добавляем 1
-                        .append(datePicker.getDayOfMonth()).append(".")
-                        .append(datePicker.getMonth() + 1).append(".")
-                        .append(datePicker.getYear()));
+                //Тут буду реализовывать сохранение даты в переменную
+                Toast.makeText(getContext(),
+                        "Дата установлена", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -74,7 +81,6 @@ public class AddFragment extends Fragment {
                 return true;
             }
         });
-
     }
 
     private void setCurrentDateOnView() {
@@ -85,13 +91,12 @@ public class AddFragment extends Fragment {
 
         // set current date into textview
         textViewSetDate.setText(new StringBuilder()
-                // Месяц отсчитывается с 0, поэтому добавляем 1
                 .append(day).append(".").append(month + 1).append(".")
                 .append(year));
 
         // Устанавливаем текущую дату для DatePicker
-        datePicker.init(year, month, day, null);
-    }
+        datePicker.init(year, month, day, null);}
+
     }
 
 

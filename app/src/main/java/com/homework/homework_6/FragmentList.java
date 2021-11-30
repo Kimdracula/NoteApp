@@ -64,7 +64,6 @@ public class FragmentList extends ListFragment implements Login {
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-
         Bundle result = new Bundle();
         constants.setHeader(getListView().getItemAtPosition(position).toString());
 

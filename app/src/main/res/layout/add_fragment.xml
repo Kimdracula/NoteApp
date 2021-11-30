@@ -16,12 +16,23 @@
         android:layout_marginStart="20dp"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="10 Декабря, Пн" />
 
+    <Button
+        android:id="@+id/buttonSetDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"/>
 
     <EditText
         android:id="@+id/editTextHead"

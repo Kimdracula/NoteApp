@@ -17,7 +17,6 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.note_fragment,container,false);
-
     }
 
     @Override
@@ -30,7 +29,6 @@ public class NoteFragment extends Fragment implements Login {
         if (bundle != null) {
             constants = bundle.getParcelable(login);
             textViewHeader.setText(constants.getHeader());
-
 }
         }
     }

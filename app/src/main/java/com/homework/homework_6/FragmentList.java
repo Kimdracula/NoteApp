@@ -22,6 +22,7 @@ public class FragmentList extends ListFragment implements Login {
     NoteFragment noteFragment;
     Constants constants;
     MainActivity mainActivity;
+    FragmentList fragmentList;
 
     @Nullable
     @Override
@@ -36,6 +37,7 @@ public class FragmentList extends ListFragment implements Login {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentList = new FragmentList();
         addFragment = new AddFragment();
         noteFragment = new NoteFragment();
         constants = new Constants();
@@ -48,10 +50,10 @@ public class FragmentList extends ListFragment implements Login {
       addNoteButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
+
               FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
               FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container,addFragment);
-
               fragmentTransaction.addToBackStack("");
               fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();
@@ -78,6 +80,7 @@ public class FragmentList extends ListFragment implements Login {
             fragmentTransaction.replace(R.id.fragment_container,noteFragment);
         }
         else{
+            fragmentTransaction.replace(R.id.fragment_container,fragmentList);
             fragmentTransaction.replace(R.id.fragment_note_container,noteFragment);
         }
         fragmentTransaction.addToBackStack("");
@@ -90,5 +93,4 @@ public class FragmentList extends ListFragment implements Login {
         int orientation = getResources().getConfiguration().orientation;
         return orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
-
 }

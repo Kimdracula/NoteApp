@@ -3,4 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty">empty</string>
+    <string name="about">Это очень крутая записная книжка, но в неё лучше ничего не записывать</string>
+    <string name="dark_theme">Включить Dark Theme</string>
+    <string name="light_theme">Включить Light Theme</string>
+    <string name="purple_theme">Включить Purple Theme</string>
+    <string name="blue_theme">Включить Blue Theme</string>
 </resources>

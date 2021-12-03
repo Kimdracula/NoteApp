@@ -20,8 +20,9 @@
 
    <com.google.android.material.navigation.NavigationView
        android:id="@+id/navigation_view"
-       android:layout_width="300dp"
+       android:layout_width="@dimen/drawer_width"
        android:layout_height="match_parent"
+       app:itemIconTint="@color/teal_200"
        app:headerLayout="@layout/drawer_header"
        android:layout_gravity="start"
        app:menu="@menu/menu">

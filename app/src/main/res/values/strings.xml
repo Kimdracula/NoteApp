@@ -9,4 +9,7 @@
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="send">Send</string>
+    <string name="about_developers">Здесь написано какое это крутое приложение, и как 100 человек над ним трудились 10 лет...</string>
+    <string name="nickname">Василий Топоров</string>
+    <string name="email">vasya777@mail.ru</string>
 </resources>

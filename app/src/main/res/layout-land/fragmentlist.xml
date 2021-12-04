@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
+<FrameLayout
+    android:id="@+id/list_container"
+    android:layout_width="match_parent"
+    android:layout_weight="0.5"
+    android:layout_height="match_parent">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddNote"
@@ -36,7 +41,7 @@
             android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="50dp"/>
 
         <TextView
             android:id="@id/android:empty"
@@ -44,10 +49,13 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/empty" />
+</FrameLayout>
+
+
     <FrameLayout
-        android:id="@+id/fragment_note_container"
+        android:id="@+id/note_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.5">
     </FrameLayout>
 

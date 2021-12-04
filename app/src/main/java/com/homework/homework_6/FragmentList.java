@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
@@ -51,12 +52,14 @@ public class FragmentList extends ListFragment implements Login {
           @Override
           public void onClick(View view) {
 
-              FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-              FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,addFragment);
-              fragmentTransaction.addToBackStack("");
-              fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.commit();
+
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container,addFragment);
+                fragmentTransaction.addToBackStack("");
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                fragmentTransaction.commit();
+
           }
       });
     }
@@ -71,8 +74,6 @@ public class FragmentList extends ListFragment implements Login {
         result.putParcelable(login,constants);
         noteFragment.setArguments(result);
 
-
-
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -80,12 +81,16 @@ public class FragmentList extends ListFragment implements Login {
             fragmentTransaction.replace(R.id.fragment_container,noteFragment);
         }
         else{
-            fragmentTransaction.replace(R.id.fragment_container,fragmentList);
-            fragmentTransaction.replace(R.id.fragment_note_container,noteFragment);
+            getChildFragmentManager().beginTransaction().replace(R.id.note_container,noteFragment).commit();
+
+
         }
         fragmentTransaction.addToBackStack("");
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
+
+
+
 
     }
 

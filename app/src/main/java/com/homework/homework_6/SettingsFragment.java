@@ -15,10 +15,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 
 public class SettingsFragment extends Fragment {
-    SwitchMaterial switchMaterial1;
-    SwitchMaterial switchMaterial2;
-    SwitchMaterial switchMaterial3;
-    SwitchMaterial switchMaterial4;
 
     @Nullable
     @Override
@@ -29,10 +25,10 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        switchMaterial1 = view.findViewById(R.id.switch1);
-        switchMaterial2 = view.findViewById(R.id.switch2);
-        switchMaterial3 = view.findViewById(R.id.switch3);
-        switchMaterial4 = view.findViewById(R.id.switch4);
+        SwitchMaterial switchMaterial1 = view.findViewById(R.id.switch1);
+        SwitchMaterial switchMaterial2 = view.findViewById(R.id.switch2);
+        SwitchMaterial switchMaterial3 = view.findViewById(R.id.switch3);
+        SwitchMaterial switchMaterial4 = view.findViewById(R.id.switch4);
 
         switchMaterial1.setOnClickListener(view1 -> Toast.makeText(getContext(),
                 R.string.dark_theme_applyed, Toast.LENGTH_SHORT).show());

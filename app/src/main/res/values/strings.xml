@@ -15,5 +15,6 @@
     <string name="send">Send</string>
     <string name="nickname">Василий Топоров</string>
     <string name="email">vasya777@mail.ru</string>
+    <string name="plug_message">Переходим на другой фрагмент</string>
 
 </resources>

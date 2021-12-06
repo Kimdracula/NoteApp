@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="avatar_width">100dp</dimen>
+    <dimen name="avatar_height">100dp</dimen>
+    <dimen name="padding_top_nickname">20dp</dimen>
+    <dimen name="drawer_width">300dp</dimen>
+</resources>

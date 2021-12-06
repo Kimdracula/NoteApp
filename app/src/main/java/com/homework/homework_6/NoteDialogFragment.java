@@ -9,7 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public class ExitDialogFragment extends DialogFragment {
+public class NoteDialogFragment extends DialogFragment {
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -17,11 +18,10 @@ public class ExitDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Внимание!")
                 .setCancelable(true)
-                .setMessage("Вы действительно хотитие выйти?")
+                .setMessage("Удалить заметку?")
                 .setPositiveButton("Да",(dialog,id)->{
-                    Toast.makeText(activity, "До свидания!", Toast.LENGTH_SHORT).show();
-    requireActivity().finish();
-    })
+                    Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show();
+                })
                 .setNegativeButton("Нет",(dialog,id)->{
                 });
         Dialog dialog = builder.create();

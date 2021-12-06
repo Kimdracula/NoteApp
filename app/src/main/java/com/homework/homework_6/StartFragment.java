@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.button.MaterialButton;
 
 
-public class StartFragment extends Fragment {
+public class StartFragment extends Fragment{
     AboutFragment aboutFragment;
     SettingsFragment settingsFragment;
     FragmentList fragmentList;
@@ -26,6 +26,7 @@ public class StartFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.start_fragment,container,false);
+
     }
 
     @Override
@@ -38,6 +39,8 @@ public class StartFragment extends Fragment {
         buttonAbout = view.findViewById(R.id.buttonAbout);
         buttonSettings = view.findViewById(R.id.buttonSettings);
         buttonGoToList = view.findViewById(R.id.buttonGoToList);
+
+
 
 
 
@@ -66,5 +69,6 @@ public class StartFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
     }
 }

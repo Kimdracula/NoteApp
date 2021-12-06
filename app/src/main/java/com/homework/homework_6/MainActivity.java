@@ -3,6 +3,7 @@ package com.homework.homework_6;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -85,5 +86,19 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack("");
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            new ExitDialogFragment().show(getSupportFragmentManager(), "DialogTAG");
+
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 }

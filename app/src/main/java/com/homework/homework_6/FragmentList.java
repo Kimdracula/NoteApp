@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
+
 import com.google.android.material.button.MaterialButton;
 
 public class FragmentList extends ListFragment implements Login {
@@ -48,20 +47,26 @@ public class FragmentList extends ListFragment implements Login {
         setListAdapter(adapter);
 
       addNoteButton = view.findViewById(R.id.buttonAddNote);
-      addNoteButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
+      addNoteButton.setOnClickListener(view1 -> {
 
 
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container,addFragment);
-                fragmentTransaction.addToBackStack("");
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                fragmentTransaction.commit();
+          FragmentTransaction fragmentTransaction = getFragmentTransaction();
+          fragmentTransaction.replace(R.id.fragment_container,addFragment);
+          transactionCommit(fragmentTransaction);
 
-          }
       });
+    }
+
+    private void transactionCommit(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
+    }
+
+    @NonNull
+    private FragmentTransaction getFragmentTransaction() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        return fragmentManager.beginTransaction();
     }
 
     @Override
@@ -74,24 +79,15 @@ public class FragmentList extends ListFragment implements Login {
         result.putParcelable(login,constants);
         noteFragment.setArguments(result);
 
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = getFragmentTransaction();
 
         if (!checkLandOrient()){
             fragmentTransaction.replace(R.id.fragment_container,noteFragment);
         }
         else{
             getChildFragmentManager().beginTransaction().replace(R.id.note_container,noteFragment).commit();
-
-
         }
-        fragmentTransaction.addToBackStack("");
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.commit();
-
-
-
-
+        transactionCommit(fragmentTransaction);
     }
 
     public Boolean checkLandOrient(){

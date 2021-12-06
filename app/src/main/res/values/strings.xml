@@ -4,8 +4,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty">empty</string>
     <string name="about">Это очень крутая записная книжка, но в неё лучше ничего не записывать</string>
-    <string name="dark_theme">Включить Dark Theme</string>
-    <string name="light_theme">Включить Light Theme</string>
+    <string name="switch_on_dark_theme">Включить Dark Theme</string>
+    <string name="switch_on_light_theme">Включить Light Theme</string>
     <string name="purple_theme">Включить Purple Theme</string>
     <string name="blue_theme">Включить Blue Theme</string>
     <string name="settings">Settings</string>
@@ -16,5 +16,11 @@
     <string name="nickname">Василий Топоров</string>
     <string name="email">vasya777@mail.ru</string>
     <string name="plug_message">Переходим на другой фрагмент</string>
+    <string name="switch_on_purple_theme">Включить Purple Theme</string>
+    <string name="switch_on_blue_theme">Включить Blue Theme</string>
+    <string name="dark_theme_applyed">Dark Theme установлена</string>
+    <string name="light_theme_applyed">Light Theme установлена</string>
+    <string name="purple_theme_applyed">Purple Theme установлена</string>
+    <string name="blue_theme_applyed">Blue Theme установлена</string>
 
 </resources>

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Включить Dark Theme" />
+        android:text="@string/switch_on_dark_theme" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch1"
@@ -22,18 +22,16 @@
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
-        android:text="Включить Light Theme"
+        android:text="@string/switch_on_light_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
          />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -42,15 +40,14 @@
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
-        android:text="Включить Purple Theme"
+        android:text="@string/switch_on_purple_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -60,15 +57,14 @@
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
-        android:text="Включить Blue Theme"
+        android:text="@string/switch_on_blue_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -77,9 +73,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

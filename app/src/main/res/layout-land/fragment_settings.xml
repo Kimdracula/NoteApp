@@ -13,38 +13,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="@string/dark_theme" />
+        android:text="@string/switch_on_dark_theme" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch1"
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
-        android:text="@string/light_theme"
+        android:text="@string/switch_on_light_theme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-         />
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch2"
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Switch" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
-        android:text="@string/purple_theme"
+        android:text="@string/switch_on_purple_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -52,15 +47,13 @@
         android:id="@+id/switch3"
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_marginStart="30dp"
         android:textSize="20sp"
-        android:text="@string/blue_theme"
+        android:text="@string/switch_on_blue_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -68,9 +61,7 @@
         android:id="@+id/switch4"
         android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Switch" />
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

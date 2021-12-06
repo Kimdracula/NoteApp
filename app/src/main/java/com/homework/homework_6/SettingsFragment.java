@@ -34,37 +34,17 @@ public class SettingsFragment extends Fragment {
         switchMaterial3 = view.findViewById(R.id.switch3);
         switchMaterial4 = view.findViewById(R.id.switch4);
 
-        switchMaterial1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),
-                        "Dark Theme установлена", Toast.LENGTH_SHORT).show();
-            }
-        });
+        switchMaterial1.setOnClickListener(view1 -> Toast.makeText(getContext(),
+                R.string.dark_theme_applyed, Toast.LENGTH_SHORT).show());
 
-        switchMaterial2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),
-                        "Light Theme установлена", Toast.LENGTH_SHORT).show();
-            }
-        });
+        switchMaterial2.setOnClickListener(view12 -> Toast.makeText(getContext(),
+                R.string.light_theme_applyed, Toast.LENGTH_SHORT).show());
 
-        switchMaterial3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),
-                        "Purple Theme установлена", Toast.LENGTH_SHORT).show();
-            }
-        });
+        switchMaterial3.setOnClickListener(view13 -> Toast.makeText(getContext(),
+                R.string.purple_theme_applyed, Toast.LENGTH_SHORT).show());
 
 
-        switchMaterial4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(),
-                        "Blue Theme установлена", Toast.LENGTH_SHORT).show();
-            }
-        });
+        switchMaterial4.setOnClickListener(view14 -> Toast.makeText(getContext(),
+                R.string.blue_theme_applyed, Toast.LENGTH_SHORT).show());
     }
     }

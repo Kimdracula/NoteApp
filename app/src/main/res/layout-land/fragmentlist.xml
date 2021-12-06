@@ -16,6 +16,8 @@
         android:id="@+id/buttonAddNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="90dp"
         app:cornerRadius="50dp"
         android:textSize="10sp"
         android:backgroundTint="@color/purple_500"
@@ -35,13 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="35dp"
         android:text="10 Декабря, Пн" />
 
     <ListView
             android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="80dp"/>
 
         <TextView
             android:id="@id/android:empty"

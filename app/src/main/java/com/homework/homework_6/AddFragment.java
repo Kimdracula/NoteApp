@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,34 +51,19 @@ public class AddFragment extends Fragment {
         datePicker.setCalendarViewShown(false);
         Calendar today = Calendar.getInstance();
         datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-                today.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+                today.get(Calendar.DAY_OF_MONTH), (view, year, monthOfYear, dayOfMonth) -> textViewSetDate.setText("Год: " + year + " " + "Месяц: "
+                        + (monthOfYear + 1) + " " + "День: " + dayOfMonth));
 
-                    @Override
-                    public void onDateChanged(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-                        textViewSetDate.setText("Год: " + year + " " + "Месяц: "
-                                + (monthOfYear + 1) + " " + "День: " + dayOfMonth);
-                    }
-                });
-
-        setDateButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                //Тут буду реализовывать сохранение даты в переменную
-                Toast.makeText(getContext(),
-                        "Дата установлена", Toast.LENGTH_SHORT).show();
-            }
+        setDateButton.setOnClickListener(view -> {
+            //Тут буду реализовывать сохранение даты в переменную
+            Toast.makeText(getContext(),
+                    "Дата установлена", Toast.LENGTH_SHORT).show();
         });
 
-        setDateButton.setOnLongClickListener(new View.OnLongClickListener() {
+        setDateButton.setOnLongClickListener(v -> {
+            setCurrentDateOnView();
 
-            @Override
-            public boolean onLongClick(View v) {
-                setCurrentDateOnView();
-
-                return true;
-            }
+            return true;
         });
     }
 

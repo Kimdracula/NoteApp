@@ -34,18 +34,10 @@ public class NoteFragment extends Fragment implements Login {
             textViewHeader.setText(constants.getHeader());
             initButtonDelete();
 }
-
-
-
         }
 
     private void initButtonDelete() {
-        deleteNoteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote");
-            }
-        });
+        deleteNoteButton.setOnClickListener(view -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
     }
 }
 

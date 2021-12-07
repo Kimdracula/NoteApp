@@ -19,12 +19,9 @@ public class NoteDialogFragment extends DialogFragment {
         builder.setTitle("Внимание!")
                 .setCancelable(true)
                 .setMessage("Удалить заметку?")
-                .setPositiveButton("Да",(dialog,id)->{
-                    Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show();
-                })
+                .setPositiveButton("Да",(dialog,id)-> Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show())
                 .setNegativeButton("Нет",(dialog,id)->{
                 });
-        Dialog dialog = builder.create();
-        return dialog;
+        return builder.create();
     }
 }

@@ -40,34 +40,17 @@ public class StartFragment extends Fragment{
         buttonSettings = view.findViewById(R.id.buttonSettings);
         buttonGoToList = view.findViewById(R.id.buttonGoToList);
 
+        buttonAbout.setOnClickListener(view1 -> getChildFragmentManager().beginTransaction().replace(R.id.main_menu_container,aboutFragment).commit());
 
+        buttonSettings.setOnClickListener(view12 -> getChildFragmentManager().beginTransaction().replace(R.id.main_menu_container,settingsFragment).commit());
 
-
-
-        buttonAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getChildFragmentManager().beginTransaction().replace(R.id.main_menu_container,aboutFragment).commit();
-            }
-        });
-
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getChildFragmentManager().beginTransaction().replace(R.id.main_menu_container,settingsFragment).commit();
-            }
-        });
-
-        buttonGoToList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container,fragmentList);
-                fragmentTransaction.addToBackStack("");
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                fragmentTransaction.commit();
-            }
+        buttonGoToList.setOnClickListener(view13 -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container,fragmentList);
+            fragmentTransaction.addToBackStack("");
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.commit();
         });
 
     }

@@ -8,18 +8,17 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
  StartFragment startFragment;
  AboutFragment aboutFragment;
+ SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settingsFragment = new SettingsFragment();
         aboutFragment = new AboutFragment();
         startFragment = new StartFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
-    }
-
-    private void initFManager() {
     }
 
     private void initDrawer() {
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
                     openAboutFragment();
                     return true;
                 case R.id.nav_settings:
+                    openSettingsFragment();
                 case R.id.nav_theme:
                 case R.id.nav_share:
                 case R.id.nav_send:
@@ -44,6 +44,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void openSettingsFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,settingsFragment);
+        fragmentCommit(fragmentTransaction);
+    }
+
+    private void fragmentCommit(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
+    }
+
     private void makeMessage() {
         Toast.makeText(getApplicationContext(),
                 R.string.plug_message, Toast.LENGTH_SHORT).show();
@@ -52,9 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private void openAboutFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container,aboutFragment);
-        fragmentTransaction.addToBackStack("");
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.commit();
+        fragmentCommit(fragmentTransaction);
     }
 
     @Override

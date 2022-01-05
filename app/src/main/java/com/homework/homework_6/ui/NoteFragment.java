@@ -1,4 +1,4 @@
-package com.homework.homework_6;
+package com.homework.homework_6.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,9 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.homework.homework_6.Data;
+import com.homework.homework_6.Login;
+import com.homework.homework_6.R;
+import com.homework.homework_6.ui.NoteDialogFragment;
 
 public class NoteFragment extends Fragment implements Login {
-    Constants constants;
+    Data data;
     MaterialButton deleteNoteButton;
 
     @Nullable
@@ -26,12 +30,11 @@ public class NoteFragment extends Fragment implements Login {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView textViewHeader = view.findViewById(R.id.noteFragmentHeader);
-        constants = new Constants();
         deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            constants = bundle.getParcelable(login);
-            textViewHeader.setText(constants.getHeader());
+          //  constants = bundle.getParcelable(login);
+            textViewHeader.setText(data.getHeader());
             initButtonDelete();
 }
         }

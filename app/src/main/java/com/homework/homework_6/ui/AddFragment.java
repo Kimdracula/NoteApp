@@ -1,4 +1,4 @@
-package com.homework.homework_6;
+package com.homework.homework_6.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.homework.homework_6.R;
 
 import java.util.Calendar;
 

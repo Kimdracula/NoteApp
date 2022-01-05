@@ -1,4 +1,4 @@
-package com.homework.homework_6;
+package com.homework.homework_6.ui;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.homework.homework_6.R;
 
 
 public class SettingsFragment extends Fragment {

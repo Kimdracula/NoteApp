@@ -5,6 +5,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
+import com.homework.homework_6.ui.AboutFragment;
+import com.homework.homework_6.ui.ExitDialogFragment;
+import com.homework.homework_6.ui.SettingsFragment;
+import com.homework.homework_6.ui.StartFragment;
+
 public class MainActivity extends AppCompatActivity {
  StartFragment startFragment;
  AboutFragment aboutFragment;

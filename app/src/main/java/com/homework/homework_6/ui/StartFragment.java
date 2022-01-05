@@ -1,4 +1,4 @@
-package com.homework.homework_6;
+package com.homework.homework_6.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +12,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
+import com.homework.homework_6.R;
+
 
 
 public class StartFragment extends Fragment{
     AboutFragment aboutFragment;
     SettingsFragment settingsFragment;
-    FragmentList fragmentList;
+    RecycleListFragment recycleListFragment;
     MaterialButton buttonAbout;
     MaterialButton buttonSettings;
     MaterialButton buttonGoToList;
@@ -34,7 +36,7 @@ public class StartFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         aboutFragment = new AboutFragment();
         settingsFragment = new SettingsFragment();
-        fragmentList = new FragmentList();
+      recycleListFragment = new RecycleListFragment();
 
         buttonAbout = view.findViewById(R.id.buttonAbout);
         buttonSettings = view.findViewById(R.id.buttonSettings);
@@ -47,7 +49,7 @@ public class StartFragment extends Fragment{
         buttonGoToList.setOnClickListener(view13 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,fragmentList);
+            fragmentTransaction.replace(R.id.fragment_container,recycleListFragment);
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();

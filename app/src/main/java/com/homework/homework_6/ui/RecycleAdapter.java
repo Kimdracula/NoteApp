@@ -1,5 +1,7 @@
 package com.homework.homework_6.ui;
 
+import android.content.ClipData;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +62,7 @@ holder.description.setText(notes.getData(position).getDescription());
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
 
-            title.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (itemClickListener != null) {

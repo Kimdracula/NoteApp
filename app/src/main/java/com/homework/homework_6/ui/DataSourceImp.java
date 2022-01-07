@@ -18,7 +18,7 @@ public class DataSourceImp implements DataSource {
 
 public DataSourceImp init(){
 
-for (int i =0; i<10; i++){
+for (int i =0; i<30; i++){
    notes.add(new Data("Заметка "+i, "Описание "+1 ));
 }
 return this;

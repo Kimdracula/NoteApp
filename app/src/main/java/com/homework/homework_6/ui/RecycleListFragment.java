@@ -4,9 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,6 +81,9 @@ MaterialButton addNoteButton;
         final RecycleAdapter adapter = new RecycleAdapter(data);
         recyclerView.setAdapter(adapter);
 
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL);
+itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
+recyclerView.addItemDecoration(itemDecoration);
     }
 
     private void transactionCommit(FragmentTransaction fragmentTransaction) {

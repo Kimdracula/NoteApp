@@ -3,6 +3,7 @@ package com.homework.homework_6.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
     private DataSource notes;
+    private OnItemClickListener itemClickListener;
 
     public RecycleAdapter(DataSource notes) {
         this.notes = notes;
@@ -39,6 +41,14 @@ holder.description.setText(notes.getData(position).getDescription());
         return notes.size();
     }
 
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View view, int position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView description;
@@ -47,7 +57,17 @@ holder.description.setText(notes.getData(position).getDescription());
             super(itemView);
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
+
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(view, getAdapterPosition());
+                    }
+                }
+            });
         }
+
     }
 
 }

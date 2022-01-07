@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.homework.homework_6.R;
@@ -80,6 +81,13 @@ MaterialButton addNoteButton;
         // Установим адаптер
         final RecycleAdapter adapter = new RecycleAdapter(data);
         recyclerView.setAdapter(adapter);
+
+        adapter.setItemClickListener(new RecycleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), "Кликнулось "+position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL);
 itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));

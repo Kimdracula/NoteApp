@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,8 @@ MaterialButton addNoteButton;
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
         DataSource data = new DataSourceImp(getResources()).init();
         initRecyclerView(recyclerView, data);
+        initItemAnimator(recyclerView);
+        initDecorator(recyclerView);
 
 
         addNoteButton = view.findViewById(R.id.buttonAddNote);
@@ -69,6 +72,7 @@ MaterialButton addNoteButton;
         });
 
     }
+
 
     private void initRecyclerView(RecyclerView recyclerView, DataSource data) {
         // Эта установка служит для повышения производительности системы
@@ -89,9 +93,16 @@ MaterialButton addNoteButton;
             }
         });
 
+    }
+    private void initItemAnimator(RecyclerView recyclerView) {
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator(); itemAnimator.setAddDuration( 1000 ); itemAnimator.setRemoveDuration( 1000 );
+        recyclerView.setItemAnimator(itemAnimator);
+    }
+
+    private void initDecorator(RecyclerView recyclerView) {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(),LinearLayoutManager.VERTICAL);
-itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
-recyclerView.addItemDecoration(itemDecoration);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     private void transactionCommit(FragmentTransaction fragmentTransaction) {

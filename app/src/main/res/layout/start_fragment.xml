@@ -10,7 +10,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="200dp"
         android:layout_marginTop="20dp"
-        app:cornerRadius="70dp"
+        android:backgroundTint="#90CAF9"
+        android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_height="wrap_content"
         android:text="К списку заметок" />
 
@@ -18,8 +19,9 @@
         android:id="@+id/buttonAbout"
         android:layout_gravity="center_horizontal"
         android:layout_width="200dp"
+        android:backgroundTint="#90CAF9"
         android:layout_marginTop="20dp"
-        app:cornerRadius="70dp"
+        android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_height="wrap_content"
         android:text="О приложении" />
 
@@ -27,8 +29,9 @@
         android:id="@+id/buttonSettings"
         android:layout_gravity="center_horizontal"
         android:layout_width="200dp"
+        android:backgroundTint="#90CAF9"
         android:layout_marginTop="20dp"
-        app:cornerRadius="70dp"
+        android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_height="wrap_content"
         android:text="Настройки" />
 

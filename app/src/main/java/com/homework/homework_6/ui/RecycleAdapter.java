@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
     private DataSource notes;
     private OnItemClickListener itemClickListener;
+    private int lastPosition = -1;
 
     public RecycleAdapter(DataSource notes) {
         this.notes = notes;
@@ -36,8 +39,17 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 holder.title.setText(notes.getData(position).getHeader());
 holder.description.setText(notes.getData(position).getDescription());
+setAnimation(holder.itemView, position);
+    }
 
-
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     @Override

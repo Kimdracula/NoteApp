@@ -11,6 +11,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
+    android:minHeight="100dp"
+    android:paddingStart="10dp"
+    android:paddingVertical="13dp"
     android:orientation="vertical">
 
 
@@ -19,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Header"
+        android:textColor="@color/material_on_background_emphasis_high_type"
         android:textSize="17sp"
         android:textStyle="bold"/>
 
@@ -26,7 +30,19 @@
         android:id="@+id/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/material_on_surface_emphasis_medium"
         android:textSize="16sp"
-        android:text="Description" />
+        android:text="Description"/>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#C5E1A5"
+        android:alpha="0.6"
+        android:textSize="16sp"
+        android:text="8 Января, Сб"
+
+        />
 </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

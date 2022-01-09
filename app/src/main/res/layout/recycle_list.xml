@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:text="+ Новая заметка" />
 
-    <TextView
+      <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,8 +24,8 @@
         android:textColor="@color/white"
         android:layout_marginStart="20dp"/>
 
-    <TextView
-        android:id="@+id/textView2"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewDateRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

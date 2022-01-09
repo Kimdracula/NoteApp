@@ -17,10 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.homework.homework_6.R;
 import com.homework.homework_6.data.CardData;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.data.RecycleAdapter;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,9 +32,8 @@ import com.homework.homework_6.data.RecycleAdapter;
  * create an instance of this fragment.
  */
 public class RecycleListFragment extends Fragment implements Login {
-CardData cardData;
 MaterialButton addNoteButton;
-int menuPosition;
+MaterialTextView textViewDate;
 
     public static RecycleListFragment newInstance() {
         return new RecycleListFragment();
@@ -52,6 +55,7 @@ int menuPosition;
         initRecyclerView(recyclerView, dataSource);
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
+        initDate(view);
 
 
         addNoteButton = view.findViewById(R.id.buttonAddNote);
@@ -66,6 +70,8 @@ int menuPosition;
         });
 
     }
+
+
 
 
     private void initRecyclerView(RecyclerView recyclerView, DataSource data) {
@@ -111,4 +117,14 @@ int menuPosition;
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
+
+    private void initDate(View view) {
+        textViewDate = view.findViewById(R.id.textViewDateRL);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd-EEEE-yyyy");
+        String date = sdf.format(Calendar.getInstance().getTime());
+        textViewDate.setText(date);
+    }
+
+
+
     }

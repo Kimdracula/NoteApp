@@ -2,13 +2,12 @@ package com.homework.homework_6.ui;
 
 import android.content.res.Resources;
 
-import com.homework.homework_6.Data;
+import com.homework.homework_6.data.CardData;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataSourceImp implements DataSource {
-    private ArrayList <Data> notes;
+    private ArrayList <CardData> notes;
     private Resources resources;
 
     public DataSourceImp(Resources resources) {
@@ -19,14 +18,14 @@ public class DataSourceImp implements DataSource {
 public DataSourceImp init(){
 
 for (int i =0; i<30; i++){
-   notes.add(new Data("Заметка "+i, "Описание "+1 ));
+   notes.add(new CardData("Заметка "+i, "Описание "+1 ));
 }
 return this;
 }
 
 
     @Override
-    public Data getData(int position) {
+    public CardData getData(int position) {
         return notes.get(position);
     }
 

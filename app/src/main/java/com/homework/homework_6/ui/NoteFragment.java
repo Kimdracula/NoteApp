@@ -11,14 +11,27 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
-import com.homework.homework_6.Data;
-import com.homework.homework_6.Login;
+import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.Login;
 import com.homework.homework_6.R;
-import com.homework.homework_6.ui.NoteDialogFragment;
 
 public class NoteFragment extends Fragment implements Login {
-    Data data;
     MaterialButton deleteNoteButton;
+    CardData cardData;
+    TextView textViewHeader;
+
+
+    public static NoteFragment newInstance(CardData cardData) {
+        NoteFragment noteFragment = new NoteFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(login, cardData);
+        noteFragment.setArguments(args);
+        return noteFragment;
+    }
+
+    public static NoteFragment newInstance() {
+        return new NoteFragment();
+    }
 
     @Nullable
     @Override
@@ -26,21 +39,33 @@ public class NoteFragment extends Fragment implements Login {
         return inflater.inflate(R.layout.note_fragment,container,false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView textViewHeader = view.findViewById(R.id.noteFragmentHeader);
-        deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-          //  constants = bundle.getParcelable(login);
-            textViewHeader.setText(data.getHeader());
-            initButtonDelete();
-}
-        }
+        initTextViews(view);
+        initButtonDelete(view);
+        if (cardData != null) {
+            cardData = getArguments().getParcelable(login);
+            populateViews();
 
-    private void initButtonDelete() {
-        deleteNoteButton.setOnClickListener(view -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
+
+
+        }
+}
+
+    private void populateViews() {
+        textViewHeader.setText(cardData.getDescription());
+    }
+
+    private void initTextViews(View view) {
+        textViewHeader = view.findViewById(R.id.noteFragmentHeader);
+    }
+
+
+    private void initButtonDelete(View view) {
+        deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
+        deleteNoteButton.setOnClickListener(view1 -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
     }
 }
 

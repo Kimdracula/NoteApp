@@ -1,10 +1,10 @@
 package com.homework.homework_6.ui;
 
-import com.homework.homework_6.Data;
+import com.homework.homework_6.data.CardData;
 
 public interface DataSource {
 
-        Data getData(int position);
+        CardData getData(int position);
         int size();
     }
 

@@ -1,24 +1,19 @@
-package com.homework.homework_6.ui;
+package com.homework.homework_6.data;
 
-import android.content.ClipData;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.homework.homework_6.Data;
 import com.homework.homework_6.R;
+import com.homework.homework_6.ui.DataSource;
 
-import java.util.ArrayList;
-
-public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
+public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteViewHolder> {
     private DataSource notes;
     private OnItemClickListener itemClickListener;
     private int lastPosition = -1;
@@ -29,14 +24,14 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycle_item,parent,false);
-        return new ViewHolder(view) ;
+        return new NoteViewHolder(view) ;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
 holder.title.setText(notes.getData(position).getHeader());
 holder.description.setText(notes.getData(position).getDescription());
 setAnimation(holder.itemView, position);
@@ -65,11 +60,11 @@ setAnimation(holder.itemView, position);
         void onItemClick(View view, int position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class NoteViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView description;
 
-        public ViewHolder(@NonNull View itemView) {
+        public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);

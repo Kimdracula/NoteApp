@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,29 +15,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.homework.homework_6.R;
+import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.Login;
+import com.homework.homework_6.data.RecycleAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link RecycleListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecycleListFragment extends Fragment {
+public class RecycleListFragment extends Fragment implements Login {
 
 MaterialButton addNoteButton;
 
-    public RecycleListFragment() {
-        // Required empty public constructor
+    public static RecycleListFragment newInstance(CardData cardData) {
+        RecycleListFragment recycleListFragment = new RecycleListFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(login, cardData);
+        recycleListFragment.setArguments(args);
+        return recycleListFragment;
     }
 
-
-    public static RecycleListFragment newInstance(String param1, String param2) {
-        RecycleListFragment fragment = new RecycleListFragment();
-        Bundle args = new Bundle();
-        return fragment;
+    public static RecycleListFragment newInstance() {
+        return new RecycleListFragment();
     }
 
 
@@ -89,7 +91,12 @@ MaterialButton addNoteButton;
         adapter.setItemClickListener(new RecycleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), "Кликнулось "+position, Toast.LENGTH_SHORT).show();
+                NoteFragment noteFragment = new NoteFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.fragment_container,noteFragment);
+                transactionCommit(fragmentTransaction);
             }
         });
 

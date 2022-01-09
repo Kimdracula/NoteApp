@@ -8,17 +8,14 @@ import java.util.ArrayList;
 
 public class DataSourceImp implements DataSource {
     private ArrayList <CardData> notes;
-    private Resources resources;
 
-    public DataSourceImp(Resources resources) {
-        this.resources = resources;
-        notes = new ArrayList<>();
-    }
 
-public DataSourceImp init(){
+
+    public DataSourceImp init(){
+    notes = new ArrayList<>();
 
 for (int i =0; i<30; i++){
-   notes.add(new CardData("Заметка "+i, "Описание "+1 ));
+   notes.add(new CardData("Заметка "+i, "Описание "+i));
 }
 return this;
 }

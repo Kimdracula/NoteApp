@@ -9,17 +9,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.homework.homework_6.data.CardData;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.R;
+import com.homework.homework_6.data.RecycleAdapter;
 
 public class NoteFragment extends Fragment implements Login {
     MaterialButton deleteNoteButton;
-    CardData cardData;
-    TextView textViewHeader;
-
+    TextInputEditText textHeader;
+    TextInputEditText textDescription;
+    int position;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment noteFragment = new NoteFragment();
@@ -45,21 +48,23 @@ public class NoteFragment extends Fragment implements Login {
         super.onViewCreated(view, savedInstanceState);
         initTextViews(view);
         initButtonDelete(view);
-        if (cardData != null) {
-            cardData = getArguments().getParcelable(login);
-            populateViews();
-
-
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            position = bundle.getInt(login);
         }
-}
+          populateViews();
+        }
+
 
     private void populateViews() {
-        textViewHeader.setText(cardData.getDescription());
+        DataSource dataSource = new DataSourceImp().init();
+        textHeader.setText(dataSource.getData(position).getHeader());
+       textDescription.setText(dataSource.getData(position).getDescription());
     }
 
     private void initTextViews(View view) {
-        textViewHeader = view.findViewById(R.id.noteFragmentHeader);
+        textHeader = view.findViewById(R.id.editTextHeader);
+        textDescription = view.findViewById(R.id.editTextDescription);
     }
 
 

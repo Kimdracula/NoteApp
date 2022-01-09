@@ -28,16 +28,9 @@ import com.homework.homework_6.data.RecycleAdapter;
  * create an instance of this fragment.
  */
 public class RecycleListFragment extends Fragment implements Login {
-
+CardData cardData;
 MaterialButton addNoteButton;
-
-    public static RecycleListFragment newInstance(CardData cardData) {
-        RecycleListFragment recycleListFragment = new RecycleListFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(login, cardData);
-        recycleListFragment.setArguments(args);
-        return recycleListFragment;
-    }
+int menuPosition;
 
     public static RecycleListFragment newInstance() {
         return new RecycleListFragment();
@@ -55,15 +48,14 @@ MaterialButton addNoteButton;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
-        DataSource data = new DataSourceImp(getResources()).init();
-        initRecyclerView(recyclerView, data);
+        DataSource dataSource = new DataSourceImp().init();
+        initRecyclerView(recyclerView, dataSource);
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
 
 
         addNoteButton = view.findViewById(R.id.buttonAddNote);
         addNoteButton.setOnClickListener(view1 -> {
-
             AddFragment addFragment = new AddFragment();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -92,9 +84,11 @@ MaterialButton addNoteButton;
             @Override
             public void onItemClick(View view, int position) {
                 NoteFragment noteFragment = new NoteFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(login,position);
+               noteFragment.setArguments(bundle);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
                 fragmentTransaction.replace(R.id.fragment_container,noteFragment);
                 transactionCommit(fragmentTransaction);
             }

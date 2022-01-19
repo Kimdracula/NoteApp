@@ -1,6 +1,4 @@
-package com.homework.homework_6.ui;
-
-import com.homework.homework_6.data.CardData;
+package com.homework.homework_6.data;
 
 public interface DataSource {
 

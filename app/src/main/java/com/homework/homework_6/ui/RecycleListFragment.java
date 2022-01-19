@@ -19,25 +19,18 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.homework.homework_6.R;
-import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.DataSource;
+import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.data.RecycleAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RecycleListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RecycleListFragment extends Fragment implements Login {
 MaterialButton addNoteButton;
 MaterialTextView textViewDate;
 
-    public static RecycleListFragment newInstance() {
-        return new RecycleListFragment();
-    }
 
 
     @Override
@@ -56,8 +49,10 @@ MaterialTextView textViewDate;
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
         initDate(view);
+        initViews(view);
+    }
 
-
+    private void initViews(@NonNull View view) {
         addNoteButton = view.findViewById(R.id.buttonAddNote);
         addNoteButton.setOnClickListener(view1 -> {
             AddFragment addFragment = new AddFragment();
@@ -68,36 +63,24 @@ MaterialTextView textViewDate;
             transactionCommit(fragmentTransaction);
 
         });
-
     }
 
 
-
-
     private void initRecyclerView(RecyclerView recyclerView, DataSource data) {
-        // Эта установка служит для повышения производительности системы
         recyclerView.setHasFixedSize(true);
-
-        // Будем работать со встроенным менеджером
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-
-        // Установим адаптер
-        final RecycleAdapter adapter = new RecycleAdapter(data);
+        RecycleAdapter adapter = new RecycleAdapter(data);
         recyclerView.setAdapter(adapter);
-
-        adapter.setItemClickListener(new RecycleAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                NoteFragment noteFragment = new NoteFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt(login,position);
-               noteFragment.setArguments(bundle);
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container,noteFragment);
-                transactionCommit(fragmentTransaction);
-            }
+        adapter.setItemClickListener((view, position) -> {
+            NoteFragment noteFragment = new NoteFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(login,position);
+           noteFragment.setArguments(bundle);
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container,noteFragment);
+            transactionCommit(fragmentTransaction);
         });
 
     }

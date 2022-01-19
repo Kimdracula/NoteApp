@@ -2,38 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonGoToList"
         android:layout_gravity="center_horizontal"
-        android:layout_width="200dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="@dimen/width_buttons_start_fragment"
+        android:layout_marginTop="@dimen/margin_top_buttons_start_fragment"
         android:backgroundTint="#90CAF9"
         android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_height="wrap_content"
-        android:text="К списку заметок" />
+        android:text="@string/text_go_to_notes" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAbout"
         android:layout_gravity="center_horizontal"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/width_buttons_start_fragment"
         android:backgroundTint="#90CAF9"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_top_buttons_start_fragment"
         android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_height="wrap_content"
-        android:text="О приложении" />
+        android:text="@string/text_about" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSettings"
         android:layout_gravity="center_horizontal"
-        android:layout_width="200dp"
+        android:layout_width="@dimen/width_buttons_start_fragment"
         android:backgroundTint="#90CAF9"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_top_buttons_start_fragment"
         android:textColor="@color/material_on_background_emphasis_high_type"
         android:layout_height="wrap_content"
-        android:text="Настройки" />
+        android:text="@string/text_settings" />
 
     <FrameLayout
         android:id="@+id/main_menu_container"

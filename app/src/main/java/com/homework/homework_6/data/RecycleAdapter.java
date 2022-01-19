@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.homework_6.R;
-import com.homework.homework_6.ui.DataSource;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteViewHolder> {
     private DataSource notes;

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/add_fragmentID"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,54 +9,52 @@
         android:id="@+id/textViewAddNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Добавить заметку"
+        android:layout_marginTop="@dimen/margin_top_textViewAddNote"
+        android:text="@string/addNote"
         android:textColor="@color/white"
-        android:textSize="30sp"
-        android:layout_marginStart="20dp"/>
+        android:textSize="@dimen/textSize"
+        android:layout_marginStart="@dimen/margin_start_textViewAddNote"/>
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="10 Декабря, Пн" />
+        android:layout_marginStart="@dimen/margin_start_textViewDate"
+        android:text="@string/date" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSetDate"
         android:layout_width="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/margin_start_buttonSetDate"
         android:layout_height="wrap_content"
         android:backgroundTint="#90CAF9"
         android:textColor="@color/material_on_background_emphasis_high_type"
-        android:text="Установить дату" />
+        android:text="@string/setDate" />
 
     <DatePicker
         android:id="@+id/datePicker"
-style="@style/MyDatePickerStyle"
+        style="@style/MyDatePickerStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="@dimen/margin_top_datePicker"/>
 
 
     <EditText
         android:id="@+id/editTextHead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/marhin_head_editTextHead"
         android:ems="10"
         android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:text="Заголовок" />
+        android:minHeight="@dimen/min_font_size_editTextHead"
+        android:text="@string/header" />
 
     <EditText
-
         android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Описание" />
+        android:text="@string/Description" />
 
 </LinearLayout>

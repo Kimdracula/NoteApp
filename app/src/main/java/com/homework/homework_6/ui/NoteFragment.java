@@ -4,19 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.DataSource;
+import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.R;
-import com.homework.homework_6.data.RecycleAdapter;
 
 public class NoteFragment extends Fragment implements Login {
     MaterialButton deleteNoteButton;
@@ -24,17 +20,6 @@ public class NoteFragment extends Fragment implements Login {
     TextInputEditText textDescription;
     int position;
 
-    public static NoteFragment newInstance(CardData cardData) {
-        NoteFragment noteFragment = new NoteFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(login, cardData);
-        noteFragment.setArguments(args);
-        return noteFragment;
-    }
-
-    public static NoteFragment newInstance() {
-        return new NoteFragment();
-    }
 
     @Nullable
     @Override
@@ -59,7 +44,7 @@ public class NoteFragment extends Fragment implements Login {
     private void populateViews() {
         DataSource dataSource = new DataSourceImp().init();
         textHeader.setText(dataSource.getData(position).getHeader());
-       textDescription.setText(dataSource.getData(position).getDescription());
+        textDescription.setText(dataSource.getData(position).getDescription());
     }
 
     private void initTextViews(View view) {

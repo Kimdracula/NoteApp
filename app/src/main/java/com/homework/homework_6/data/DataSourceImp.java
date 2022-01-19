@@ -1,8 +1,4 @@
-package com.homework.homework_6.ui;
-
-import android.content.res.Resources;
-
-import com.homework.homework_6.data.CardData;
+package com.homework.homework_6.data;
 
 import java.util.ArrayList;
 

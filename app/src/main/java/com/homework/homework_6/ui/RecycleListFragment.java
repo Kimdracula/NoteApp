@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,6 +33,8 @@ import java.util.Calendar;
 public class RecycleListFragment extends Fragment implements Login {
 MaterialButton addNoteButton;
 MaterialTextView textViewDate;
+    RecycleAdapter adapter;
+    DataSource dataSource;
 
 
 
@@ -44,12 +49,36 @@ MaterialTextView textViewDate;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
-        DataSource dataSource = new DataSourceImp().init();
+        dataSource = new DataSourceImp().init();
         initRecyclerView(recyclerView, dataSource);
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
         initDate(view);
         initViews(view);
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+       int position = adapter.getMenuPosition();
+        switch(item.getItemId()) {
+            case R.id.context_change:
+                // Do some stuff
+                return true;
+            case R.id.context_delete:
+                dataSource.deleteData(position);
+                adapter.notifyItemRemoved(position);
+                return true;
+        }
+
+        return super.onContextItemSelected(item);
+
     }
 
     private void initViews(@NonNull View view) {
@@ -70,9 +99,9 @@ MaterialTextView textViewDate;
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        RecycleAdapter adapter = new RecycleAdapter(data);
+        adapter = new RecycleAdapter(data,this);
         recyclerView.setAdapter(adapter);
-        adapter.setItemClickListener((view, position) -> {
+         adapter.setItemClickListener((view, position) -> {
             NoteFragment noteFragment = new NoteFragment();
             Bundle bundle = new Bundle();
             bundle.putInt(login,position);

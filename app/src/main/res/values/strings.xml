@@ -37,5 +37,7 @@
     <string name="text_go_to_notes">К списку заметок</string>
     <string name="text_about">О приложении</string>
     <string name="text_settings">Настройки</string>
+    <string name="text_delete_context">Удалить</string>
+    <string name="text_change_context">Изменить</string>
 
 </resources>

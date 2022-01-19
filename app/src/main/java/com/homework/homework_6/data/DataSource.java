@@ -4,5 +4,6 @@ public interface DataSource {
 
         CardData getData(int position);
         int size();
+        CardData deleteData(int position);
     }
 

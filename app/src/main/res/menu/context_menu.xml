@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/context_delete"
+    android:title="@string/text_delete_context"
+    android:orderInCategory="10">
+</item>
+
+    <item
+        android:id="@+id/context_change"
+        android:title="@string/text_change_context"
+        android:orderInCategory="20">
+    </item>
+
+</menu>

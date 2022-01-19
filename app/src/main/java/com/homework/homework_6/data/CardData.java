@@ -9,7 +9,6 @@ public class CardData  {
         this.description = description;
     }
 
-
     public String getHeader() {
         return header;
     }

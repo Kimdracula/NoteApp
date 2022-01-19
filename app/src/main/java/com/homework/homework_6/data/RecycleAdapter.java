@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.homework_6.R;
@@ -16,10 +17,19 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
     private DataSource notes;
     private OnItemClickListener itemClickListener;
     private int lastPosition = -1;
+    private Fragment fragment;
+    private int menuPosition;
 
-    public RecycleAdapter(DataSource notes) {
+
+    public RecycleAdapter(DataSource notes, Fragment fragment) {
         this.notes = notes;
+        this.fragment = fragment;
     }
+
+    public int getMenuPosition() {
+        return menuPosition;
+    }
+
 
     @NonNull
     @Override
@@ -67,15 +77,22 @@ setAnimation(holder.itemView, position);
             super(itemView);
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
+            registerContextMenu(itemView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    menuPosition = getLayoutPosition();
                     if (itemClickListener != null) {
                         itemClickListener.onItemClick(view, getAdapterPosition());
                     }
                 }
             });
+        }
+
+        private void registerContextMenu(View itemView) {
+            if (fragment!=null){
+                fragment.registerForContextMenu(itemView);}
         }
 
     }

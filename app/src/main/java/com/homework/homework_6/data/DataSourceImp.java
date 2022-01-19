@@ -26,4 +26,9 @@ return this;
     public int size() {
         return notes.size();
     }
+
+    @Override
+    public CardData deleteData(int position) {
+        return notes.remove(position);
+    }
 }

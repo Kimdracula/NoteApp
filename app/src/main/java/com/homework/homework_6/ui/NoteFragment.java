@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.homework.homework_6.data.CardData;
 import com.homework.homework_6.data.DataSource;
 import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
@@ -19,6 +20,21 @@ public class NoteFragment extends Fragment implements Login {
     TextInputEditText textHeader;
     TextInputEditText textDescription;
     int position;
+
+    // Для редактирования данных
+    public static NoteFragment newInstance(CardData cardData) {
+        NoteFragment fragment = new NoteFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(login, cardData);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    // Для добавления новых данных
+    public static NoteFragment newInstance() {
+        NoteFragment fragment = new NoteFragment();
+        return fragment;
+    }
 
 
     @Nullable

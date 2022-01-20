@@ -36,6 +36,11 @@ MaterialTextView textViewDate;
     RecycleAdapter adapter;
     DataSource dataSource;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataSource = new DataSourceImp().init();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +53,6 @@ MaterialTextView textViewDate;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
-        dataSource = new DataSourceImp().init();
         initRecyclerView(recyclerView, dataSource);
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);

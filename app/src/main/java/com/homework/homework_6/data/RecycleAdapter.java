@@ -20,15 +20,18 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
     private Fragment fragment;
     private int menuPosition;
 
+    public int getMenuPosition() {
+        return menuPosition;
+    }
+
+
+
 
     public RecycleAdapter(DataSource notes, Fragment fragment) {
         this.notes = notes;
         this.fragment = fragment;
     }
 
-    public int getMenuPosition() {
-        return menuPosition;
-    }
 
 
     @NonNull
@@ -44,6 +47,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
 holder.title.setText(notes.getData(position).getHeader());
 holder.description.setText(notes.getData(position).getDescription());
 setAnimation(holder.itemView, position);
+
     }
 
     private void setAnimation(View viewToAnimate, int position)
@@ -78,16 +82,17 @@ setAnimation(holder.itemView, position);
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
             registerContextMenu(itemView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    menuPosition = getLayoutPosition();
-                    if (itemClickListener != null) {
-                        itemClickListener.onItemClick(view, getAdapterPosition());
-                    }
+            itemView.setOnClickListener(view -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(view, getAdapterPosition());
                 }
             });
+           itemView.setOnLongClickListener(view -> {
+               itemView.showContextMenu();
+               menuPosition=getLayoutPosition();
+               return true;
+           });
+
         }
 
         private void registerContextMenu(View itemView) {

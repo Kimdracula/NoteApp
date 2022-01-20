@@ -37,7 +37,6 @@ MaterialTextView textViewDate;
     DataSource dataSource;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,14 +65,13 @@ MaterialTextView textViewDate;
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-       int position = adapter.getMenuPosition();
         switch(item.getItemId()) {
             case R.id.context_change:
                 // Do some stuff
                 return true;
             case R.id.context_delete:
-                dataSource.deleteData(position);
-                adapter.notifyItemRemoved(position);
+                dataSource.deleteData(adapter.getMenuPosition());
+                adapter.notifyItemRemoved(adapter.getMenuPosition());
                 return true;
         }
 
@@ -111,7 +109,6 @@ MaterialTextView textViewDate;
             fragmentTransaction.replace(R.id.fragment_container,noteFragment);
             transactionCommit(fragmentTransaction);
         });
-
     }
     private void initItemAnimator(RecyclerView recyclerView) {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator(); itemAnimator.setAddDuration( 1000 ); itemAnimator.setRemoveDuration( 1000 );

@@ -28,6 +28,11 @@ return this;
     }
 
     @Override
+    public void changeData(int position, CardData cardData) {
+        notes.set(position, cardData);
+    }
+
+    @Override
     public CardData deleteData(int position) {
         return notes.remove(position);
     }

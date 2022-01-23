@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class CardData implements Parcelable {
-    private String header;
-    private String description;
+    private final String header;
+    private final String description;
 
     public CardData(String header, String description) {
         this.header = header;

@@ -5,6 +5,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
+import com.homework.homework_6.observer.EventManager;
 import com.homework.homework_6.ui.AboutFragment;
 import com.homework.homework_6.ui.ExitDialogFragment;
 import com.homework.homework_6.ui.SettingsFragment;
@@ -14,6 +15,13 @@ public class MainActivity extends AppCompatActivity {
  StartFragment startFragment;
  AboutFragment aboutFragment;
  SettingsFragment settingsFragment;
+    EventManager eventManager;
+
+    public EventManager getEventManager() {
+        return eventManager;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         startFragment = new StartFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
+        eventManager = new EventManager();
+
     }
 
     private void initDrawer() {

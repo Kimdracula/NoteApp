@@ -1,6 +1,13 @@
 package com.homework.homework_6.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,20 +19,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
 import com.homework.homework_6.data.DataSource;
 import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.data.RecycleAdapter;
+import com.homework.homework_6.observer.EventManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,6 +37,7 @@ MaterialButton addNoteButton;
 MaterialTextView textViewDate;
     RecycleAdapter adapter;
     DataSource dataSource;
+    EventManager eventManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +64,19 @@ MaterialTextView textViewDate;
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        MainActivity activity = (MainActivity)context;
+        eventManager = activity.getEventManager();
+    }
+
+    @Override
+    public void onDetach() {
+        eventManager = null;
+        super.onDetach();
+    }
+
+    @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = requireActivity().getMenuInflater();
@@ -69,13 +85,22 @@ MaterialTextView textViewDate;
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = adapter.getMenuPosition();
         switch(item.getItemId()) {
             case R.id.context_change:
-                // Do some stuff
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container,NoteFragment
+                        .newInstance(dataSource.getData(position)));
+                transactionCommit(fragmentTransaction);
+                eventManager.subscribe(cardData -> {
+                    dataSource.changeData(position, cardData);
+                    adapter.notifyItemChanged(position);
+                });
                 return true;
             case R.id.context_delete:
-                dataSource.deleteData(adapter.getMenuPosition());
-                adapter.notifyItemRemoved(adapter.getMenuPosition());
+                dataSource.deleteData(position);
+                adapter.notifyItemRemoved(position);
                 return true;
         }
 

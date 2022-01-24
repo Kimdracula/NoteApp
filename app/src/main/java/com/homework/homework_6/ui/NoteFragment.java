@@ -100,8 +100,6 @@ public class NoteFragment extends Fragment implements Login {
     }
 
     private void populateViews() {
-      // textHeader.setText(dataSource.getData(position).getHeader());
-      // textDescription.setText(dataSource.getData(position).getDescription());
 
         textHeader.setText(cardData.getHeader());
         textDescription.setText(cardData.getDescription());

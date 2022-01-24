@@ -33,6 +33,11 @@ return this;
     }
 
     @Override
+    public void addData(CardData cardData) {
+        notes.add(cardData);
+    }
+
+    @Override
     public CardData deleteData(int position) {
         return notes.remove(position);
     }

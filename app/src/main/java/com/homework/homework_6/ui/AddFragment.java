@@ -1,5 +1,6 @@
 package com.homework.homework_6.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,22 +15,48 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
+import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.Login;
+import com.homework.homework_6.observer.EventManager;
 
 import java.util.Calendar;
 
-public class AddFragment extends Fragment {
+public class AddFragment extends Fragment implements Login {
     EditText headerText;
     EditText description;
     MaterialButton setDateButton;
     DatePicker datePicker;
     TextView textViewSetDate;
-
+CardData cardData;
+EventManager eventManager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.add_fragment,container,false);
+    }
+
+    public static AddFragment newInstance(CardData cardData) {
+        AddFragment addFragment= new AddFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(login, cardData);
+        addFragment.setArguments(args);
+        return addFragment;
+    }
+
+    // Для добавления новых данных
+    public static AddFragment newInstance() {
+        AddFragment fragment = new AddFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            cardData = getArguments().getParcelable(login);}
     }
 
     @Override
@@ -45,6 +72,36 @@ public class AddFragment extends Fragment {
         initViews();
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        MainActivity mainActivity = (MainActivity)context;
+        eventManager = mainActivity.getEventManager();
+    }
+
+    @Override
+    public void onDetach() {
+        eventManager = null;
+        super.onDetach();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        cardData = collectCardData();
+    }
+
+    private CardData collectCardData() {
+        String title = this.headerText.getText().toString();
+        String description = this.description.getText().toString();
+        return  new CardData(title,description);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventManager.notify(cardData);
+    }
 
 
 

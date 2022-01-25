@@ -3,18 +3,28 @@ package com.homework.homework_6.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CardData implements Parcelable {
+import java.util.Date;
+
+public class CardData implements Parcelable{
     private final String header;
     private final String description;
+    private int picture;
+    private Date date;// дата
 
-    public CardData(String header, String description) {
+    public CardData() {
+    }
+
+    public CardData(String header, String description, int picture, Date date) {
         this.header = header;
         this.description = description;
+        this.picture = picture;
+        this.date = date;
     }
 
     protected CardData(Parcel in) {
         header = in.readString();
         description = in.readString();
+        picture = in.readInt();
     }
 
     public static final Creator<CardData> CREATOR = new Creator<CardData>() {
@@ -37,6 +47,14 @@ public class CardData implements Parcelable {
         return description;
     }
 
+    public int getPicture() {
+        return picture;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -46,5 +64,6 @@ public class CardData implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(header);
         parcel.writeString(description);
+        parcel.writeInt(picture);
     }
 }

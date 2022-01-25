@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,8 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
 holder.title.setText(notes.getData(position).getHeader());
 holder.description.setText(notes.getData(position).getDescription());
+holder.imageView.setImageResource(notes.getData(position).getPicture());
+
 setAnimation(holder.itemView, position);
 
     }
@@ -76,11 +79,13 @@ setAnimation(holder.itemView, position);
     public class NoteViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView description;
+        private ImageView imageView;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
+            imageView = itemView.findViewById(R.id.imageView);
             registerContextMenu(itemView);
             itemView.setOnClickListener(view -> {
                 if (itemClickListener != null) {

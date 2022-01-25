@@ -15,6 +15,15 @@
         android:layout_marginStart="@dimen/margin_start_note_fragment"
         android:textSize="@dimen/text_size_header"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSetDate2"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/margin_start_buttonSetDate"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#90CAF9"
+        android:textColor="@color/material_on_background_emphasis_high_type"
+        android:text="@string/setDate" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewDate"
         android:layout_width="match_parent"

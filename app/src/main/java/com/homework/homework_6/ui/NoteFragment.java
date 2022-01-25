@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,9 @@ import com.homework.homework_6.data.Login;
 import com.homework.homework_6.R;
 import com.homework.homework_6.observer.EventManager;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class NoteFragment extends Fragment implements Login {
     MaterialButton deleteNoteButton;
     TextInputEditText textHeader;
@@ -26,6 +31,9 @@ public class NoteFragment extends Fragment implements Login {
     DataSource dataSource;
     int position;
     EventManager eventManager;
+
+    DatePicker datePicker;
+    Calendar dateAndTime=Calendar.getInstance();
 
     // Для редактирования данных
     public static NoteFragment newInstance(CardData cardData) {
@@ -90,7 +98,9 @@ public class NoteFragment extends Fragment implements Login {
     private CardData collectCardData() {
         String title = this.textHeader.getText().toString();
         String description = this.textDescription.getText().toString();
-        return  new CardData(title,description);
+        int picture = cardData.getPicture();
+        Date date = getDateFromDatePicker();
+        return new CardData(title, description,picture,date);
     }
 
     @Override
@@ -114,6 +124,15 @@ public class NoteFragment extends Fragment implements Login {
     private void initButtonDelete(View view) {
         deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
         deleteNoteButton.setOnClickListener(view1 -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
+    }
+
+
+    // Получение даты из DatePicker
+    private Date getDateFromDatePicker() {
+        dateAndTime.set(Calendar.YEAR, this.datePicker.getYear());
+        dateAndTime.set(Calendar.MONTH, this.datePicker.getMonth());
+        dateAndTime.set(Calendar.DAY_OF_MONTH, this.datePicker.getDayOfMonth());
+        return dateAndTime.getTime();
     }
 }
 

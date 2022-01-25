@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class CardData implements Parcelable{
-    private final String header;
-    private final String description;
+    private  String header;
+    private String description;
     private int picture;
     private Date date;// дата
 

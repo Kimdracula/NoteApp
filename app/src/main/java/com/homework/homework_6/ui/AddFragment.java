@@ -26,6 +26,7 @@ import com.homework.homework_6.data.Login;
 import com.homework.homework_6.observer.EventManager;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddFragment extends Fragment implements Login {
     EditText headerText;
@@ -33,6 +34,7 @@ public class AddFragment extends Fragment implements Login {
     MaterialButton setDateButton;
     TextView textViewSetDate;
     CardData cardData;
+    DatePicker datePicker;
     EventManager eventManager;
     Calendar dateAndTime=Calendar.getInstance();
 
@@ -149,8 +151,19 @@ public class AddFragment extends Fragment implements Login {
     private CardData collectCardData() {
         String title = this.headerText.getText().toString();
         String description = this.description.getText().toString();
-        return new CardData(title, description);
+       int picture = cardData.getPicture();
+        Date date = getDateFromDatePicker();
+        return new CardData(title, description,picture,date);
     }
+
+    // Получение даты из DatePicker
+    private Date getDateFromDatePicker() {
+        dateAndTime.set(Calendar.YEAR, this.datePicker.getYear());
+        dateAndTime.set(Calendar.MONTH, this.datePicker.getMonth());
+        dateAndTime.set(Calendar.DAY_OF_MONTH, this.datePicker.getDayOfMonth());
+        return dateAndTime.getTime();
+    }
+
 
     @Override
     public void onDestroy() {

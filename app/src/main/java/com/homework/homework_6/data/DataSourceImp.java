@@ -1,6 +1,9 @@
 package com.homework.homework_6.data;
 
+import com.homework.homework_6.R;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DataSourceImp implements DataSource {
     private ArrayList <CardData> notes;
@@ -11,7 +14,7 @@ public class DataSourceImp implements DataSource {
     notes = new ArrayList<>();
 
 for (int i =0; i<30; i++){
-   notes.add(new CardData("Заметка "+i, "Описание "+i));
+   notes.add(new CardData("Заметка "+i, "Описание "+i, R.drawable.audi, Calendar.getInstance().getTime()));
 }
 return this;
 }

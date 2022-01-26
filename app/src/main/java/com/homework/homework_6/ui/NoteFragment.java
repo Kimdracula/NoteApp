@@ -28,10 +28,8 @@ public class NoteFragment extends Fragment implements Login {
     TextInputEditText textHeader;
     TextInputEditText textDescription;
     CardData cardData;
-    DataSource dataSource;
     int position;
     EventManager eventManager;
-
     DatePicker datePicker;
     Calendar dateAndTime=Calendar.getInstance();
 
@@ -54,7 +52,8 @@ public class NoteFragment extends Fragment implements Login {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            cardData = getArguments().getParcelable(login);}
+            cardData = getArguments().getParcelable(login);
+            populateViews();}
     }
 
     @Nullable
@@ -69,11 +68,7 @@ public class NoteFragment extends Fragment implements Login {
         super.onViewCreated(view, savedInstanceState);
         initTextViews(view);
         initButtonDelete(view);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            position = bundle.getInt(login);
-        }
-          populateViews();
+
         }
 
     @Override

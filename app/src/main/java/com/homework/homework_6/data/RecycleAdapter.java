@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.homework.homework_6.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteViewHolder> {
     private DataSource notes;
     private OnItemClickListener itemClickListener;
@@ -48,6 +51,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
 holder.title.setText(notes.getData(position).getHeader());
 holder.description.setText(notes.getData(position).getDescription());
 holder.imageView.setImageResource(notes.getData(position).getPicture());
+holder.date.setText(new SimpleDateFormat("dd.MMM.yyyy HH:mm").format(notes.getData(position).getDate()));
 
 setAnimation(holder.itemView, position);
 
@@ -80,12 +84,14 @@ setAnimation(holder.itemView, position);
         private TextView title;
         private TextView description;
         private ImageView imageView;
+        private TextView date;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.textViewHeader);
             description = itemView.findViewById(R.id.textViewDescription);
             imageView = itemView.findViewById(R.id.imageView);
+            date = itemView.findViewById(R.id.textViewDate);
             registerContextMenu(itemView);
             itemView.setOnClickListener(view -> {
                 if (itemClickListener != null) {

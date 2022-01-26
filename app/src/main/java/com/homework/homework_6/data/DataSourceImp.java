@@ -14,7 +14,7 @@ public class DataSourceImp implements DataSource {
     notes = new ArrayList<>();
 
 for (int i =0; i<30; i++){
-   notes.add(new CardData("Заметка "+i, "Описание "+i, R.drawable.audi, Calendar.getInstance().getTime()));
+   notes.add(new CardData("Заметка "+i, "Описание "+i, R.drawable.audi,Calendar.getInstance().getTime()));
 }
 return this;
 }

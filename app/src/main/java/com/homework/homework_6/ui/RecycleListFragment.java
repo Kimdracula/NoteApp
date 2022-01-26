@@ -115,7 +115,7 @@ public class RecycleListFragment extends Fragment implements Login {
         addNoteButton.setOnClickListener(view1 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,AddFragment.newInstance());
+            fragmentTransaction.replace(R.id.fragment_container,NoteFragment.newInstance());
             transactionCommit(fragmentTransaction);
             eventManager.subscribe(new EventListener() {
                 @Override

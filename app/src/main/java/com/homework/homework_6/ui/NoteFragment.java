@@ -1,6 +1,7 @@
 package com.homework.homework_6.ui;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,11 @@ public class NoteFragment extends Fragment implements Login {
     TextInputEditText textDescription;
     CardData cardData;
     DatePickerDialog datePickerDialog;
+    Date date;
+    int picture;
+
+
+    TimePickerDialog timePickerDialog;
     ImageView image;
     int position;
     EventManager eventManager;
@@ -72,8 +79,12 @@ public class NoteFragment extends Fragment implements Login {
         if (getArguments() != null) {
             cardData = getArguments().getParcelable(login);
             populateViews();}
-
+        else setDefaultDate();
         }
+
+    private void setDefaultDate() {
+        textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(Calendar.getInstance().getTime()));
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -97,8 +108,16 @@ public class NoteFragment extends Fragment implements Login {
     private CardData collectCardData() {
         String title = this.textHeader.getText().toString();
         String description = this.textDescription.getText().toString();
-        int picture = cardData.getPicture();
-        Date date = getDateFromDatePicker();
+        try {
+            this.picture = cardData.getPicture();
+        }catch (NullPointerException ignored) {
+          //  picture = R.drawable.ic_theme;
+        }
+        try{
+        this.date = getDateFromDatePicker();}
+        catch (NullPointerException ignored){
+            date= Calendar.getInstance().getTime();
+        }
         return new CardData(title, description,picture,date);
     }
 
@@ -111,7 +130,7 @@ public class NoteFragment extends Fragment implements Login {
     private void populateViews() {
           textHeader.setText(cardData.getHeader());
           textDescription.setText(cardData.getDescription());
-          textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy HH:mm").format(cardData.getDate()));
+          textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(cardData.getDate()));
           image.setImageResource(cardData.getPicture());
 
     }
@@ -124,6 +143,7 @@ public class NoteFragment extends Fragment implements Login {
             @Override
             public void onClick(View view) {
                 showDatePickerDialog();
+
             }
         });
         textHeader = view.findViewById(R.id.editTextHeader);
@@ -133,9 +153,11 @@ public class NoteFragment extends Fragment implements Login {
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-textViewDate.setText(year + "" + month + " "+ day);
+textViewDate.setText(day + "." + month + "."+ year);
         }
     };
+
+
     private void showDatePickerDialog() {
         datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
                 cal.get(Calendar.YEAR),
@@ -144,6 +166,9 @@ textViewDate.setText(year + "" + month + " "+ day);
                 cal.get(Calendar.HOUR_OF_DAY);
         datePickerDialog.show();
     }
+
+
+
 
     private Date getDateFromDatePicker() {
 

@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
+        android:hint="Название"
         android:textColor="@color/white"
         android:layout_marginStart="@dimen/margin_start_note_fragment"
         android:textSize="@dimen/text_size_header"/>
@@ -40,20 +41,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_start_note_fragment"
         android:text=""
+        android:hint="Введите текст здесь"
         android:textColor="@color/material_on_surface_emphasis_medium"
         android:textSize="@dimen/text_size_description" />
 
     <ImageView
         android:id="@+id/imageViewNote"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp">
     </ImageView>
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonDeleteNote"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_top_buttonDeleteNote"
+        android:layout_marginTop="10dp"
         android:layout_width="@dimen/width_buttonDeleteNote"
         android:backgroundTint="#90CAF9"
         android:textColor="@color/material_on_background_emphasis_high_type"

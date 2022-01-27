@@ -51,7 +51,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
 holder.title.setText(notes.getData(position).getHeader());
 holder.description.setText(notes.getData(position).getDescription());
 holder.imageView.setImageResource(notes.getData(position).getPicture());
-holder.date.setText(new SimpleDateFormat("dd.MMM.yyyy HH:mm").format(notes.getData(position).getDate()));
+holder.date.setText(new SimpleDateFormat("dd.MMM.yyyy").format(notes.getData(position).getDate()));
 
 setAnimation(holder.itemView, position);
 

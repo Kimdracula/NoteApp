@@ -141,7 +141,7 @@ public class RecycleListFragment extends Fragment implements Login {
              fragmentTransaction.replace(R.id.fragment_container,NoteFragment
                      .newInstance(dataSource.getData(position)));
              transactionCommit(fragmentTransaction);
-             eventManager.subscribe(cardData -> {
+                 eventManager.subscribe(cardData -> {
                  dataSource.changeData(position, cardData);
                  adapter.notifyItemChanged(position);
              });

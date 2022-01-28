@@ -1,7 +1,6 @@
 package com.homework.homework_6.ui;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.TimePicker;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,13 +15,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.homework.homework_6.MainActivity;
-import com.homework.homework_6.data.CardData;
-import com.homework.homework_6.data.DataSource;
-import com.homework.homework_6.data.DataSourceImp;
-import com.homework.homework_6.data.Login;
 import com.homework.homework_6.R;
+import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.Login;
 import com.homework.homework_6.observer.EventManager;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,11 +33,7 @@ public class NoteFragment extends Fragment implements Login {
     DatePickerDialog datePickerDialog;
     Date date;
     int picture;
-
-
-    TimePickerDialog timePickerDialog;
     ImageView image;
-    int position;
     EventManager eventManager;
     Calendar cal = Calendar.getInstance();
 
@@ -166,8 +156,6 @@ textViewDate.setText(day + "." + month + "."+ year);
                 cal.get(Calendar.HOUR_OF_DAY);
         datePickerDialog.show();
     }
-
-
 
 
     private Date getDateFromDatePicker() {

@@ -1,7 +1,11 @@
 package com.homework.homework_6.ui;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.homework.homework_6.MainActivity;
@@ -36,6 +41,7 @@ public class NoteFragment extends Fragment implements Login {
     ImageView image;
     EventManager eventManager;
     Calendar cal = Calendar.getInstance();
+    FloatingActionButton floatingActionButton;
 
 
     // Для редактирования данных
@@ -138,7 +144,18 @@ public class NoteFragment extends Fragment implements Login {
         });
         textHeader = view.findViewById(R.id.editTextHeader);
         textDescription = view.findViewById(R.id.editTextDescription);
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 3);
+            }
+        });
     }
+
+
 
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -169,6 +186,15 @@ textViewDate.setText(day + "." + month + "."+ year);
     private void initButtonDelete(View view) {
         deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
         deleteNoteButton.setOnClickListener(view1 -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
+    }
+
+    @Override
+ public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK&&data!=null){
+            Uri selectedImage = data.getData();
+            image.setImageURI(selectedImage);
+        }
     }
 
 }

@@ -1,13 +1,18 @@
 package com.homework.homework_6;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 import com.homework.homework_6.observer.EventManager;
 import com.homework.homework_6.ui.AboutFragment;
+import com.homework.homework_6.ui.CreateDatePicker;
 import com.homework.homework_6.ui.ExitDialogFragment;
+import com.homework.homework_6.ui.NoteFragment;
 import com.homework.homework_6.ui.SettingsFragment;
 import com.homework.homework_6.ui.StartFragment;
 
@@ -16,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
  AboutFragment aboutFragment;
  SettingsFragment settingsFragment;
     EventManager eventManager;
+
+
+    public CreateDatePicker getCreateDatePicker() {
+        return createDatePicker;
+    }
+
+    CreateDatePicker createDatePicker;
 
     public EventManager getEventManager() {
         return eventManager;
@@ -33,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
         eventManager = new EventManager();
+        createDatePicker = new CreateDatePicker();
 
     }
 
@@ -95,4 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 }

@@ -32,16 +32,20 @@ public class NoteFragment extends Fragment implements Login {
     MaterialButton deleteNoteButton;
     MaterialButton setDateButton;
     MaterialTextView textViewDate;
+
+    public MaterialTextView getTextViewDate() {
+        return textViewDate;
+    }
+
     TextInputEditText textHeader;
     TextInputEditText textDescription;
     CardData cardData;
-    DatePickerDialog datePickerDialog;
     Date date;
     int picture;
     ImageView image;
     EventManager eventManager;
-    Calendar cal = Calendar.getInstance();
     FloatingActionButton floatingActionButton;
+    CreateDatePicker createDatePicker;
 
 
     // Для редактирования данных
@@ -87,11 +91,15 @@ public class NoteFragment extends Fragment implements Login {
         super.onAttach(context);
         MainActivity mainActivity = (MainActivity)context;
         eventManager = mainActivity.getEventManager();
+        createDatePicker = mainActivity.getCreateDatePicker();
+
+
     }
 
     @Override
     public void onDetach() {
         eventManager = null;
+        createDatePicker=null;
         super.onDetach();
     }
 
@@ -105,12 +113,12 @@ public class NoteFragment extends Fragment implements Login {
         String title = this.textHeader.getText().toString();
         String description = this.textDescription.getText().toString();
         try {
-            this.picture = cardData.getPicture();
+           this.picture = cardData.getPicture();
         }catch (NullPointerException ignored) {
-          //  picture = R.drawable.ic_theme;
+
         }
         try{
-        this.date = getDateFromDatePicker();}
+        this.date = createDatePicker.getDateFromDatePicker();}
         catch (NullPointerException ignored){
             date= Calendar.getInstance().getTime();
         }
@@ -138,7 +146,7 @@ public class NoteFragment extends Fragment implements Login {
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog();
+              createDatePicker.showDatePickerDialog(getContext());
 
             }
         });
@@ -156,33 +164,6 @@ public class NoteFragment extends Fragment implements Login {
     }
 
 
-
-    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-textViewDate.setText(day + "." + month + "."+ year);
-        }
-    };
-
-
-    private void showDatePickerDialog() {
-        datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-                cal.get(Calendar.HOUR_OF_DAY);
-        datePickerDialog.show();
-    }
-
-
-    private Date getDateFromDatePicker() {
-
-        cal.set(Calendar.YEAR, this.datePickerDialog.getDatePicker().getYear());
-        cal.set(Calendar.MONTH, this.datePickerDialog.getDatePicker().getMonth());
-        cal.set(Calendar.DAY_OF_MONTH, this.datePickerDialog.getDatePicker().getDayOfMonth());
-        return cal.getTime();
-    }
-
     private void initButtonDelete(View view) {
         deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
         deleteNoteButton.setOnClickListener(view1 -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
@@ -196,6 +177,7 @@ textViewDate.setText(day + "." + month + "."+ year);
             image.setImageURI(selectedImage);
         }
     }
+
 
 }
 

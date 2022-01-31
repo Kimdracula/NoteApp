@@ -39,5 +39,7 @@
     <string name="text_settings">Настройки</string>
     <string name="text_delete_context">Удалить</string>
     <string name="text_change_context">Изменить</string>
+    <string name="TitleEditText">Название</string>
+    <string name="editTextDescription">Введите текст здесь</string>
 
 </resources>

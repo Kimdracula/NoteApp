@@ -1,7 +1,6 @@
 package com.homework.homework_6.observer;
 
 import com.homework.homework_6.data.CardData;
-import com.homework.homework_6.observer.EventListener;
 
 import java.util.ArrayList;
 import java.util.List;

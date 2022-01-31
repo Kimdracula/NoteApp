@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.homework.homework_6.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteViewHolder> {
     private DataSource notes;

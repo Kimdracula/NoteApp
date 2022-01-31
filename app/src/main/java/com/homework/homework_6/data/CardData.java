@@ -11,8 +11,6 @@ public class CardData implements Parcelable{
     private int picture;
     private Date date;// дата
 
-    public CardData() {
-    }
 
     public CardData(String header, String description, int picture, Date date) {
         this.header = header;

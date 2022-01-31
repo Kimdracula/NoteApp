@@ -29,19 +29,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class NoteFragment extends Fragment implements Login {
-    MaterialButton deleteNoteButton;
-    MaterialButton setDateButton;
-    MaterialTextView textViewDate;
-    TextInputEditText textHeader;
-    TextInputEditText textDescription;
-    CardData cardData;
-    DatePickerDialog datePickerDialog;
-    Date date;
-    int picture;
-    ImageView image;
-    EventManager eventManager;
-    Calendar cal = Calendar.getInstance();
-    FloatingActionButton floatingActionButton;
+    private MaterialTextView textViewDate;
+    private  TextInputEditText textHeader;
+    private  TextInputEditText textDescription;
+    private CardData cardData;
+    private DatePickerDialog datePickerDialog;
+    private int picture;
+    private ImageView image;
+    private EventManager eventManager;
+    private Calendar cal = Calendar.getInstance();
 
 
     // Для редактирования данных
@@ -109,12 +105,13 @@ public class NoteFragment extends Fragment implements Login {
         }catch (NullPointerException ignored) {
           //  picture = R.drawable.ic_theme;
         }
+        Date date;
         try{
-        this.date = getDateFromDatePicker();}
+        date = getDateFromDatePicker();}
         catch (NullPointerException ignored){
-            date= Calendar.getInstance().getTime();
+            date = Calendar.getInstance().getTime();
         }
-        return new CardData(title, description,picture,date);
+        return new CardData(title, description,picture, date);
     }
 
     @Override
@@ -134,17 +131,11 @@ public class NoteFragment extends Fragment implements Login {
     private void initTextViews(View view) {
         image = view.findViewById(R.id.imageViewNote);
         textViewDate = view.findViewById(R.id.textViewDate);
-        setDateButton = view.findViewById(R.id.buttonSetDate);
-        setDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog();
-
-            }
-        });
+        MaterialButton setDateButton = view.findViewById(R.id.buttonSetDate);
+        setDateButton.setOnClickListener(view1 -> showDatePickerDialog());
         textHeader = view.findViewById(R.id.editTextHeader);
         textDescription = view.findViewById(R.id.editTextDescription);
-        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,7 +175,7 @@ textViewDate.setText(day + "." + month + "."+ year);
     }
 
     private void initButtonDelete(View view) {
-        deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
+        MaterialButton deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
         deleteNoteButton.setOnClickListener(view1 -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
     }
 

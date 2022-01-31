@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.homework.homework_6.MainActivity;
@@ -35,8 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class RecycleListFragment extends Fragment implements Login {
-    private MaterialButton addNoteButton;
-    private MaterialTextView textViewDate;
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;
@@ -111,7 +107,7 @@ public class RecycleListFragment extends Fragment implements Login {
     }
 
     private void initViews(@NonNull View view) {
-        addNoteButton = view.findViewById(R.id.buttonAddNote);
+        MaterialButton addNoteButton = view.findViewById(R.id.buttonAddNote);
         addNoteButton.setOnClickListener(view1 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -165,7 +161,7 @@ public class RecycleListFragment extends Fragment implements Login {
     }
 
     private void initDate(View view) {
-        textViewDate = view.findViewById(R.id.textViewDateRL);
+        MaterialTextView textViewDate = view.findViewById(R.id.textViewDateRL);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd-EEEE-yyyy");
         String date = sdf.format(Calendar.getInstance().getTime());
         textViewDate.setText(date);

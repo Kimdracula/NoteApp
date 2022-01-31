@@ -41,4 +41,13 @@
     <dimen name="margin_top_recycle_list">20dp</dimen>
     <dimen name="width_buttons_start_fragment">200dp</dimen>
     <dimen name="margin_top_buttons_start_fragment">20dp</dimen>
+    <dimen name="EditTextWidth">350dp</dimen>
+    <dimen name="MarginTopButtonSetDate">20dp</dimen>
+    <dimen name="editTextMarginTop">20dp</dimen>
+    <dimen name="pictureWidth">300dp</dimen>
+    <dimen name="pictureHeight">300dp</dimen>
+    <dimen name="imageViewNoteMargin">100dp</dimen>
+    <dimen name="MarginEndFloatingButton">20dp</dimen>
+    <dimen name="ButtonDeleteNoteMarginTop">10dp</dimen>
+    <dimen name="buttonDeleteNoteMarginBottom">20dp</dimen>
 </resources>

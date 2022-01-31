@@ -7,13 +7,10 @@ import java.util.Calendar;
 
 public class DataSourceImp implements DataSource {
     private ArrayList <CardData> notes;
-
-
-
     public DataSourceImp init(){
     notes = new ArrayList<>();
 
-for (int i =0; i<30; i++){
+for (int i =0; i<10; i++){
    notes.add(new CardData("Заметка "+i, "Описание "+i, R.drawable.audi,Calendar.getInstance().getTime()));
 }
 return this;

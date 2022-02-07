@@ -46,7 +46,7 @@ public class RecycleListFragment extends Fragment implements Login {
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;
-   static final String KEY = "key";
+    static final String KEY = "key";
     SharedPreferences sharedPref = null;
 
     @Override
@@ -74,20 +74,15 @@ public class RecycleListFragment extends Fragment implements Login {
 
 if (dataSource.size() ==0) {
     String savedNote = sharedPref.getString(KEY, null);
-    if (savedNote == null) {
-        Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();
-    } else {
         try {
             Type type = new TypeToken<ArrayList<CardData>>() {
             }.getType();
-            dataSource.addAll(new GsonBuilder().create().fromJson(savedNote, type));
+            dataSource.list().addAll(new GsonBuilder().create().fromJson(savedNote, type));
         } catch (JsonSyntaxException e) {
             Toast.makeText(getContext(), "Ошибка трансформации", Toast.LENGTH_SHORT).show();
         }
-
     }
 }
-            }
 
 
 
@@ -107,7 +102,7 @@ if (dataSource.size() ==0) {
 
     @Override
     public void onStop() {
-        String jsonNotes = new GsonBuilder().create().toJson(dataSource);
+        String jsonNotes = new GsonBuilder().create().toJson(dataSource.list());
         sharedPref.edit().putString(KEY, jsonNotes).apply();
         super.onStop();
     }

@@ -9,7 +9,7 @@ public class CardData implements Parcelable{
     private  String header;
     private String description;
     private int picture;
-    private Date date;// дата
+    private Date date;
 
 
     public CardData(String header, String description, int picture, Date date) {

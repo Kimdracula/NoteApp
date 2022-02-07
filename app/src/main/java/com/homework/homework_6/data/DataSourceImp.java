@@ -11,8 +11,6 @@ public class DataSourceImp implements DataSource {
     notes = new ArrayList<>();
 return this;
 }
-
-
     @Override
     public CardData getData(int position) {
         return notes.get(position);
@@ -39,7 +37,7 @@ return this;
     }
 
     @Override
-    public void addAll(ArrayList<CardData> arrayList) {
-        notes.addAll(arrayList);
+    public ArrayList<CardData> list() {
+        return notes;
     }
 }

@@ -39,8 +39,6 @@ public class NoteFragment extends Fragment implements Login {
     private EventManager eventManager;
     private Calendar cal = Calendar.getInstance();
 
-
-    // Для редактирования данных
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
         Bundle args = new Bundle();
@@ -49,7 +47,6 @@ public class NoteFragment extends Fragment implements Login {
         return fragment;
     }
 
-    // Для добавления новых данных
     public static NoteFragment newInstance() {
         NoteFragment fragment = new NoteFragment();
         return fragment;
@@ -85,6 +82,8 @@ public class NoteFragment extends Fragment implements Login {
         eventManager = mainActivity.getEventManager();
     }
 
+
+
     @Override
     public void onDetach() {
         eventManager = null;
@@ -103,7 +102,7 @@ public class NoteFragment extends Fragment implements Login {
         try {
             this.picture = cardData.getPicture();
         }catch (NullPointerException ignored) {
-          //  picture = R.drawable.ic_theme;
+
         }
         Date date;
         try{
@@ -116,8 +115,9 @@ public class NoteFragment extends Fragment implements Login {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         eventManager.notify(cardData);
+        super.onDestroy();
+
     }
 
     private void populateViews() {

@@ -37,4 +37,9 @@ return this;
     public CardData deleteData(int position) {
         return notes.remove(position);
     }
+
+    @Override
+    public void addAll(ArrayList<CardData> arrayList) {
+        notes.addAll(arrayList);
+    }
 }

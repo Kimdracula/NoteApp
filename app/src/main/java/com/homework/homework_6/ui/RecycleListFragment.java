@@ -1,6 +1,9 @@
 package com.homework.homework_6.ui;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -8,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,6 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
 import com.homework.homework_6.data.CardData;
@@ -29,13 +37,17 @@ import com.homework.homework_6.data.RecycleAdapter;
 import com.homework.homework_6.observer.EventListener;
 import com.homework.homework_6.observer.EventManager;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RecycleListFragment extends Fragment implements Login {
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;
+   static final String KEY = "key";
+    SharedPreferences sharedPref = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,19 +71,45 @@ public class RecycleListFragment extends Fragment implements Login {
         initDecorator(recyclerView);
         initDate(view);
         initViews(view);
+
+if (dataSource.size() ==0) {
+    String savedNote = sharedPref.getString(KEY, null);
+    if (savedNote == null) {
+        Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();
+    } else {
+        try {
+            Type type = new TypeToken<ArrayList<CardData>>() {
+            }.getType();
+            dataSource.addAll(new GsonBuilder().create().fromJson(savedNote, type));
+        } catch (JsonSyntaxException e) {
+            Toast.makeText(getContext(), "Ошибка трансформации", Toast.LENGTH_SHORT).show();
+        }
+
     }
+}
+            }
+
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         MainActivity activity = (MainActivity)context;
         eventManager = activity.getEventManager();
+        sharedPref = activity.getSharedPref();
     }
 
     @Override
     public void onDetach() {
         eventManager = null;
         super.onDetach();
+    }
+
+    @Override
+    public void onStop() {
+        String jsonNotes = new GsonBuilder().create().toJson(dataSource);
+        sharedPref.edit().putString(KEY, jsonNotes).apply();
+        super.onStop();
     }
 
     @Override

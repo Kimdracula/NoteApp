@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class NoteFragment extends Fragment implements Login {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private MaterialTextView textViewDate;
     private  TextInputEditText textHeader;
     private  TextInputEditText textDescription;
@@ -48,7 +49,6 @@ public class NoteFragment extends Fragment implements Login {
     private ImageView image;
     private EventManager eventManager;
     private Calendar cal = Calendar.getInstance();
-    private FirebaseFirestore  fb;
     Context context;
 
     public static NoteFragment newInstance(CardData cardData) {
@@ -92,8 +92,7 @@ public class NoteFragment extends Fragment implements Login {
         super.onAttach(context);
         MainActivity mainActivity = (MainActivity)context;
         eventManager = mainActivity.getEventManager();
-fb = mainActivity.getDb();
-this.context = mainActivity.getApplicationContext();
+        this.context = mainActivity.getApplicationContext();
     }
 
 
@@ -108,16 +107,16 @@ this.context = mainActivity.getApplicationContext();
     public void onStop() {
         super.onStop();
         cardData = collectCardData();
-        CollectionReference dbNotes = fb.collection("NOTES");
+        CollectionReference dbNotes = firebaseFirestore.collection("NOTES");
 dbNotes.add(cardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
     @Override
     public void onSuccess(DocumentReference documentReference) {
-        //Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
     }
 }).addOnFailureListener(new OnFailureListener() {
     @Override
     public void onFailure(@NonNull Exception e) {
-       // Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+       Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
     }
 });
     }

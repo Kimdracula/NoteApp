@@ -46,8 +46,7 @@ public class RecycleListFragment extends Fragment implements Login {
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;
-    static final String KEY = "key";
-    SharedPreferences sharedPref = null;
+   // SharedPreferences sharedPref = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class RecycleListFragment extends Fragment implements Login {
         initDecorator(recyclerView);
         initDate(view);
         initViews(view);
-
+/*
 if (dataSource.size() ==0) {
     String savedNote = sharedPref.getString(KEY, null);
         try {
@@ -81,7 +80,7 @@ if (dataSource.size() ==0) {
         } catch (JsonSyntaxException e) {
             Toast.makeText(getContext(), "Ошибка трансформации", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 }
 
 
@@ -91,7 +90,6 @@ if (dataSource.size() ==0) {
         super.onAttach(context);
         MainActivity activity = (MainActivity)context;
         eventManager = activity.getEventManager();
-        sharedPref = activity.getSharedPref();
     }
 
     @Override
@@ -102,8 +100,6 @@ if (dataSource.size() ==0) {
 
     @Override
     public void onStop() {
-        String jsonNotes = new GsonBuilder().create().toJson(dataSource.list());
-        sharedPref.edit().putString(KEY, jsonNotes).apply();
         super.onStop();
     }
 

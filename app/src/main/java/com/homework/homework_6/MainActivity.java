@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.homework.homework_6.observer.EventManager;
 import com.homework.homework_6.ui.AboutFragment;
 import com.homework.homework_6.ui.ExitDialogFragment;
@@ -18,11 +19,12 @@ public class MainActivity extends AppCompatActivity {
  SettingsFragment settingsFragment;
     EventManager eventManager;
 
-    public SharedPreferences getSharedPref() {
-        return sharedPref;
+    public FirebaseFirestore getDb() {
+        return db;
     }
 
-    SharedPreferences sharedPref;
+    FirebaseFirestore db;
+
 
     public EventManager getEventManager() {
         return eventManager;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
         eventManager = new EventManager();
-        sharedPref = getPreferences(MODE_PRIVATE);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
     }
 
     private void initDrawer() {

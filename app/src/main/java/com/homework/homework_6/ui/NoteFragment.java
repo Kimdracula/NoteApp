@@ -13,13 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.GsonBuilder;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
@@ -40,6 +48,8 @@ public class NoteFragment extends Fragment implements Login {
     private ImageView image;
     private EventManager eventManager;
     private Calendar cal = Calendar.getInstance();
+    private FirebaseFirestore  fb;
+    Context context;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
@@ -82,7 +92,8 @@ public class NoteFragment extends Fragment implements Login {
         super.onAttach(context);
         MainActivity mainActivity = (MainActivity)context;
         eventManager = mainActivity.getEventManager();
-
+fb = mainActivity.getDb();
+this.context = mainActivity.getApplicationContext();
     }
 
 
@@ -97,6 +108,18 @@ public class NoteFragment extends Fragment implements Login {
     public void onStop() {
         super.onStop();
         cardData = collectCardData();
+        CollectionReference dbNotes = fb.collection("NOTES");
+dbNotes.add(cardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    @Override
+    public void onSuccess(DocumentReference documentReference) {
+        //Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception e) {
+       // Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+    }
+});
     }
 
     private CardData collectCardData() {

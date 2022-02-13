@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +47,7 @@ public class RecycleListFragment extends Fragment implements Login {
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;
-   // SharedPreferences sharedPref = null;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

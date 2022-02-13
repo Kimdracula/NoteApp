@@ -50,6 +50,7 @@ public class NoteFragment extends Fragment implements Login {
     private EventManager eventManager;
     private Calendar cal = Calendar.getInstance();
     Context context;
+    String collectionPath = "NOTES";
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
@@ -107,7 +108,7 @@ public class NoteFragment extends Fragment implements Login {
     public void onStop() {
         super.onStop();
         cardData = collectCardData();
-        CollectionReference dbNotes = firebaseFirestore.collection("NOTES");
+        CollectionReference dbNotes = firebaseFirestore.collection(collectionPath);
 dbNotes.add(cardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
     @Override
     public void onSuccess(DocumentReference documentReference) {

@@ -31,6 +31,7 @@ import com.google.gson.reflect.TypeToken;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
 import com.homework.homework_6.data.CardData;
+import com.homework.homework_6.data.CardDataResponse;
 import com.homework.homework_6.data.DataSource;
 import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
@@ -52,12 +53,19 @@ public class RecycleListFragment extends Fragment implements Login {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataSource = new DataSourceImp().init();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        dataSource = new DataSourceImp().init(new CardDataResponse() {
+            @Override
+            public void initialized(DataSource cardsData) {
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         return inflater.inflate(R.layout.recycle_list, container, false);
 
     }
@@ -66,10 +74,13 @@ public class RecycleListFragment extends Fragment implements Login {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
-        initRecyclerView(recyclerView, dataSource);
+
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
+
         initDate(view);
+        adapter.setDataSource(dataSource);
+        initRecyclerView(recyclerView, dataSource);
         initViews(view);
 /*
 if (dataSource.size() ==0) {
@@ -159,7 +170,7 @@ if (dataSource.size() ==0) {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecycleAdapter(data,this);
+        adapter = new RecycleAdapter(this);
         recyclerView.setAdapter(adapter);
          adapter.setItemClickListener((view, position) -> {
              FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();

@@ -37,6 +37,9 @@ public class CardData implements Parcelable{
         }
     };
 
+    public CardData() {
+    }
+
     public String getHeader() {
         return header;
     }

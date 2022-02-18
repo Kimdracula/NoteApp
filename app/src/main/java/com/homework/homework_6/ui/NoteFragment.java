@@ -5,7 +5,6 @@ import static android.app.Activity.RESULT_OK;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,21 +13,15 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.GsonBuilder;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
 import com.homework.homework_6.data.CardData;
@@ -37,6 +30,7 @@ import com.homework.homework_6.observer.EventManager;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class NoteFragment extends Fragment implements Login {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -109,21 +103,13 @@ public class NoteFragment extends Fragment implements Login {
         super.onStop();
         cardData = collectCardData();
         CollectionReference dbNotes = firebaseFirestore.collection(collectionPath);
-dbNotes.add(cardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-    @Override
-    public void onSuccess(DocumentReference documentReference) {
-        Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show();
-    }
-}).addOnFailureListener(new OnFailureListener() {
-    @Override
-    public void onFailure(@NonNull Exception e) {
-       Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
-    }
-});
+        dbNotes.add(cardData).addOnSuccessListener(documentReference ->
+        Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
+        .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
     }
 
     private CardData collectCardData() {
-        String title = this.textHeader.getText().toString();
+        String title = Objects.requireNonNull(this.textHeader.getText()).toString();
         String description = this.textDescription.getText().toString();
         try {
             this.picture = cardData.getPicture();

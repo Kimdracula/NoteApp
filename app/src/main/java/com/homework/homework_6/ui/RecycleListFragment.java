@@ -1,9 +1,6 @@
 package com.homework.homework_6.ui;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -11,8 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,31 +19,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
-import com.homework.homework_6.data.CardData;
-import com.homework.homework_6.data.CardDataResponse;
 import com.homework.homework_6.data.DataSource;
 import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.data.RecycleAdapter;
-import com.homework.homework_6.observer.EventListener;
 import com.homework.homework_6.observer.EventManager;
-
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RecycleListFragment extends Fragment implements Login {
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,13 +42,8 @@ public class RecycleListFragment extends Fragment implements Login {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        dataSource = new DataSourceImp().init(new CardDataResponse() {
-            @Override
-            public void initialized(DataSource cardsData) {
-                adapter.notifyDataSetChanged();
-            }
-        });
+        adapter = new RecycleAdapter(this);
+        dataSource = new DataSourceImp().init(cardsData -> adapter.notifyDataSetChanged());
 
         return inflater.inflate(R.layout.recycle_list, container, false);
 
@@ -74,25 +53,12 @@ public class RecycleListFragment extends Fragment implements Login {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
-
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
-
         initDate(view);
         adapter.setDataSource(dataSource);
-        initRecyclerView(recyclerView, dataSource);
+        initRecyclerView(recyclerView);
         initViews(view);
-/*
-if (dataSource.size() ==0) {
-    String savedNote = sharedPref.getString(KEY, null);
-        try {
-            Type type = new TypeToken<ArrayList<CardData>>() {
-            }.getType();
-            dataSource.list().addAll(new GsonBuilder().create().fromJson(savedNote, type));
-        } catch (JsonSyntaxException e) {
-            Toast.makeText(getContext(), "Ошибка трансформации", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 }
 
 
@@ -154,23 +120,19 @@ if (dataSource.size() ==0) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container,NoteFragment.newInstance());
             transactionCommit(fragmentTransaction);
-            eventManager.subscribe(new EventListener() {
-                @Override
-                public void updateData(CardData cardData) {
-                    dataSource.addData(cardData);
-                    adapter.notifyItemInserted(dataSource.size()-1);
+            eventManager.subscribe(cardData -> {
+                dataSource.addData(cardData);
+                adapter.notifyItemInserted(dataSource.size()-1);
 
-                }
             });
         });
     }
 
 
-    private void initRecyclerView(RecyclerView recyclerView, DataSource data) {
+    private void initRecyclerView(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecycleAdapter(this);
         recyclerView.setAdapter(adapter);
          adapter.setItemClickListener((view, position) -> {
              FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();

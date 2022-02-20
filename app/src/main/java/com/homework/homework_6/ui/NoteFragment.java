@@ -101,12 +101,17 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onStop() {
         super.onStop();
-        cardData = collectCardData();
-        CollectionReference dbNotes = firebaseFirestore.collection(collectionPath);
-        dbNotes.add(cardData).addOnSuccessListener(documentReference ->
-        Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
-        .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
-    }
+        CardData updatedCardData = collectCardData();
+        if (getArguments()==null) {
+            firebaseFirestore.collection(collectionPath).add(updatedCardData).addOnSuccessListener(documentReference ->
+                    Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
+        }else{
+
+            firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
+                    Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
+        }}
 
     private CardData collectCardData() {
         String title = Objects.requireNonNull(this.textHeader.getText()).toString();

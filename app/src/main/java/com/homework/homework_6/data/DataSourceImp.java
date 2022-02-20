@@ -18,6 +18,7 @@ public class DataSourceImp implements DataSource {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot d : list) {
                     CardData c = d.toObject(CardData.class);
+                    c.setId(d.getId());
                     notes.add(c);
                     cardDataResponse.initialized(DataSourceImp.this);
                 }

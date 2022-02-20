@@ -110,8 +110,7 @@ public class RecycleListFragment extends Fragment implements Login {
                 });
                 return true;
             case R.id.context_delete:
-                dataSource.deleteData(position);
-                adapter.notifyItemRemoved(position);
+
                 FirebaseFirestore firebaseFirestore =FirebaseFirestore.getInstance();
                 firebaseFirestore.collection(collectionPath).document(dataSource.getData(position).getId()).delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -126,6 +125,8 @@ public class RecycleListFragment extends Fragment implements Login {
 
                     }
                 });
+                dataSource.deleteData(position);
+                adapter.notifyItemRemoved(position);
                 return true;
         }
 

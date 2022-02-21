@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.button.MaterialButton;
 import com.homework.homework_6.R;
 
@@ -34,17 +35,11 @@ public class StartFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        aboutFragment = new AboutFragment();
-        settingsFragment = new SettingsFragment();
-      recycleListFragment = new RecycleListFragment();
-
-        buttonAbout = view.findViewById(R.id.buttonAbout);
-        buttonSettings = view.findViewById(R.id.buttonSettings);
-        buttonGoToList = view.findViewById(R.id.buttonGoToList);
-
-        buttonAbout.setOnClickListener(view1 -> getChildFragmentManager().beginTransaction().replace(R.id.main_menu_container,aboutFragment).commit());
-
-        buttonSettings.setOnClickListener(view12 -> getChildFragmentManager().beginTransaction().replace(R.id.main_menu_container,settingsFragment).commit());
+// Configure sign-in to request the user's ID, email address, and basic
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
         buttonGoToList.setOnClickListener(view13 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();

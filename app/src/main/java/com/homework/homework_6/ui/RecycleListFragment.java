@@ -50,7 +50,6 @@ public class RecycleListFragment extends Fragment implements Login {
                              Bundle savedInstanceState) {
         adapter = new RecycleAdapter(this);
         dataSource = new DataSourceImp().init(cardsData -> adapter.notifyDataSetChanged());
-
         return inflater.inflate(R.layout.recycle_list, container, false);
 
     }

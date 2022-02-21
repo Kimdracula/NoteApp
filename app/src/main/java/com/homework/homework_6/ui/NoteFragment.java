@@ -33,7 +33,6 @@ import java.util.Date;
 import java.util.Objects;
 
 public class NoteFragment extends Fragment implements Login {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private MaterialTextView textViewDate;
     private  TextInputEditText textHeader;
     private  TextInputEditText textDescription;
@@ -101,17 +100,21 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onStop() {
         super.onStop();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         CardData updatedCardData = collectCardData();
         if (getArguments()==null) {
-            firebaseFirestore.collection(collectionPath).add(updatedCardData).addOnSuccessListener(documentReference ->
+        firebaseFirestore.collection(collectionPath)
+            .add(updatedCardData).addOnSuccessListener(documentReference ->
                     Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
-        }else{
-
+        }
+        else{
             firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
                     Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
-        }}
+        }
+        eventManager.notify(updatedCardData);
+    }
 
     private CardData collectCardData() {
         String title = Objects.requireNonNull(this.textHeader.getText()).toString();

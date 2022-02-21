@@ -20,7 +20,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
@@ -105,13 +104,13 @@ public class NoteFragment extends Fragment implements Login {
         if (getArguments()==null) {
         firebaseFirestore.collection(collectionPath)
             .add(updatedCardData).addOnSuccessListener(documentReference ->
-                    Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(context, "Error while updating note", Toast.LENGTH_SHORT).show());
         }
         else{
             firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
-                    Toast.makeText(context, "Your note has been added to Firebase Firestore", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(context, "Your note has been added", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show());
         }
         eventManager.notify(updatedCardData);
     }

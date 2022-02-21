@@ -1,7 +1,11 @@
 package com.homework.homework_6.data;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +17,7 @@ public class DataSourceImp implements DataSource {
     @Override
     public DataSource init(CardDataResponse cardDataResponse) {
         notes = new ArrayList<>();
-        firebaseFirestore.collection(collectionPath).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        firebaseFirestore.collection(collectionPath).orderBy("date", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
             if (!queryDocumentSnapshots.isEmpty()) {
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot d : list) {
@@ -25,7 +29,8 @@ public class DataSourceImp implements DataSource {
             }
 
         }).addOnFailureListener(e -> {
-            //    Toast.makeText(, "Fail to get the data.", Toast.LENGTH_SHORT).show();
+            Log.d("Error TAG", "get failed with reading Firebase ");
+
         });
         if (cardDataResponse != null){
             cardDataResponse.initialized(this);
@@ -58,8 +63,4 @@ public class DataSourceImp implements DataSource {
         return notes.remove(position);
     }
 
-    @Override
-    public ArrayList<CardData> list() {
-        return notes;
-    }
 }

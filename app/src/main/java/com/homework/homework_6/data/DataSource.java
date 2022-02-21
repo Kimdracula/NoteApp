@@ -10,7 +10,6 @@ public interface DataSource {
         void changeData(int position, CardData cardData);
         void addData(CardData cardData);
         CardData deleteData(int position);
-        ArrayList<CardData>list();
 
     }
 

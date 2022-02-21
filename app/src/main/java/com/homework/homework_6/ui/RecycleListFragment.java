@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -25,7 +24,6 @@ import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
-import com.homework.homework_6.data.CardData;
 import com.homework.homework_6.data.DataSource;
 import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
@@ -39,7 +37,7 @@ public class RecycleListFragment extends Fragment implements Login {
     private  DataSource dataSource;
     private EventManager eventManager;
     String collectionPath = "NOTES";
-    CardData cardData;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,4 +1,4 @@
-package com.homework.homework_6.data;
+package com.my.notes.data;
 
 import android.util.Log;
 

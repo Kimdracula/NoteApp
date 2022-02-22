@@ -1,4 +1,4 @@
-package com.homework.homework_6.data;
+package com.my.notes.data;
 
 public interface CardDataResponse {
     void initialized(DataSource cardsData);

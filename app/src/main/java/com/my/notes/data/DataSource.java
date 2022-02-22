@@ -1,7 +1,4 @@
-package com.homework.homework_6.data;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+package com.my.notes.data;
 
 public interface DataSource {
         DataSource init(CardDataResponse cardDataResponse);

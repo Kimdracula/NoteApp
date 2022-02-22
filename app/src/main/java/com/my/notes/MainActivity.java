@@ -1,17 +1,16 @@
-package com.homework.homework_6;
+package com.my.notes;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.homework.homework_6.observer.EventManager;
-import com.homework.homework_6.ui.AboutFragment;
-import com.homework.homework_6.ui.ExitDialogFragment;
-import com.homework.homework_6.ui.SettingsFragment;
-import com.homework.homework_6.ui.StartFragment;
+import com.my.notes.observer.EventManager;
+import com.my.notes.ui.AboutFragment;
+import com.my.notes.ui.ExitDialogFragment;
+import com.my.notes.ui.SettingsFragment;
+import com.my.notes.ui.StartFragment;
 
 public class MainActivity extends AppCompatActivity {
  StartFragment startFragment;

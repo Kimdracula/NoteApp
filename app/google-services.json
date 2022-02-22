@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "952608923276",
-    "project_id": "notes-2ac5e",
-    "storage_bucket": "notes-2ac5e.appspot.com"
+    "project_number": "575823433713",
+    "project_id": "notesapp-52e89",
+    "storage_bucket": "notesapp-52e89.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:952608923276:android:56214d637d1ea54e9f65a9",
+        "mobilesdk_app_id": "1:575823433713:android:22a209b056282aa02dfe50",
         "android_client_info": {
-          "package_name": "com.homework.homework_6"
+          "package_name": "com.my.notes"
         }
       },
       "oauth_client": [
         {
-          "client_id": "952608923276-cq049vetjpel89hlae11e434h5qmbjrj.apps.googleusercontent.com",
+          "client_id": "575823433713-v5ehsvktk1ibsm1osnp8lf8mf4u8pq74.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.my.notes",
+            "certificate_hash": "690cd88b3babe19cf22b318eea57089bcad2e506"
+          }
+        },
+        {
+          "client_id": "575823433713-fdo08aq723nt86e482qp3aosmp10j00b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCIcVhZp6gLYlyYtArX1UYaPzWjeBPMqR8"
+          "current_key": "AIzaSyB3hDkOhzk6wCJVcP0XsUkIoGodc2-s8cI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "952608923276-cq049vetjpel89hlae11e434h5qmbjrj.apps.googleusercontent.com",
+              "client_id": "575823433713-fdo08aq723nt86e482qp3aosmp10j00b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

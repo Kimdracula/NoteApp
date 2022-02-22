@@ -1,4 +1,4 @@
-package com.homework.homework_6.data;
+package com.my.notes.data;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.homework.homework_6.R;
+import com.my.notes.R;
 
 import java.text.SimpleDateFormat;
 

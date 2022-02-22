@@ -1,4 +1,4 @@
-package com.homework.homework_6.ui;
+package com.my.notes.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,12 +19,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.homework.homework_6.R;
+import com.my.notes.R;
 
 
 public class StartFragment extends Fragment{
-    RecycleListFragment recycleListFragment;
-
 
 
     private com.google.android.gms.common.SignInButton buttonSignIn;
@@ -67,7 +65,7 @@ public class StartFragment extends Fragment{
         buttonContinue.setOnClickListener(view12 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,recycleListFragment);
+            fragmentTransaction.replace(R.id.fragment_container,new RecycleListFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();
@@ -122,13 +120,13 @@ public class StartFragment extends Fragment{
     // Разрешить аутентификацию и запретить остальные действия
     private void enableSign(){
         buttonSignIn.setEnabled(true);
-        buttonContinue.setEnabled(false);
+      //  buttonContinue.setEnabled(false);
     }
 
     // Запретить аутентификацию (уже прошла) и разрешить остальные действия
     private void disableSign(){
         buttonSignIn.setEnabled(false);
-        buttonContinue.setEnabled(true);
+      //  buttonContinue.setEnabled(true);
     }
 
 

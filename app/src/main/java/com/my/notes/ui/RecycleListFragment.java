@@ -1,4 +1,4 @@
-package com.homework.homework_6.ui;
+package com.my.notes.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,13 +22,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.homework.homework_6.MainActivity;
-import com.homework.homework_6.R;
-import com.homework.homework_6.data.DataSource;
-import com.homework.homework_6.data.DataSourceImp;
-import com.homework.homework_6.data.Login;
-import com.homework.homework_6.data.RecycleAdapter;
-import com.homework.homework_6.observer.EventManager;
+import com.my.notes.MainActivity;
+import com.my.notes.R;
+import com.my.notes.data.DataSource;
+import com.my.notes.data.DataSourceImp;
+import com.my.notes.data.Login;
+import com.my.notes.data.RecycleAdapter;
+import com.my.notes.observer.EventManager;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

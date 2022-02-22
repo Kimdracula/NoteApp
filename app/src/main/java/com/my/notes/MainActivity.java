@@ -13,16 +13,11 @@ import com.my.notes.ui.SettingsFragment;
 import com.my.notes.ui.StartFragment;
 
 public class MainActivity extends AppCompatActivity {
- StartFragment startFragment;
- AboutFragment aboutFragment;
- SettingsFragment settingsFragment;
-    EventManager eventManager;
+    private StartFragment startFragment;
+    private AboutFragment aboutFragment;
+    private SettingsFragment settingsFragment;
+    private   EventManager eventManager;
 
-    public FirebaseFirestore getDb() {
-        return db;
-    }
-
-    FirebaseFirestore db;
 
 
     public EventManager getEventManager() {
@@ -41,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
         eventManager = new EventManager();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
     }
 
     private void initDrawer() {

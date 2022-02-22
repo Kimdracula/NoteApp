@@ -15,24 +15,31 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.my.notes.MainActivity;
 import com.my.notes.data.CardData;
+import com.my.notes.data.DataSource;
 import com.my.notes.observer.EventManager;
 
 public class NoteDialogFragment extends DialogFragment {
     private final String collectionPath = "NOTES";
     private EventManager eventManager;
-
+    DataSource dataSource;
+    int position;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         MainActivity activity = (MainActivity) requireActivity();
+        if (getArguments() != null && getArguments().containsKey("name")) {
+            Bundle bundle = this.getArguments();
+            position = bundle.getInt("position_to_delete");
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Внимание!")
                 .setCancelable(true)
                 .setMessage("Удалить заметку?")
                 .setPositiveButton("Да",(dialog,id)->{
                     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-                    firebaseFirestore.collection(collectionPath).document(cardData.getId()).delete()
+                    firebaseFirestore.collection(collectionPath).document(dataSource.getData(position).getId()).delete()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                       @Override
                                                       public void onSuccess(Void unused) {
@@ -45,10 +52,9 @@ public class NoteDialogFragment extends DialogFragment {
 
                         }
                     });
-                    eventManager.notify(cardData);
 
 
-                        Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show();}
+                    Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show();}
                 )
                 .setNegativeButton("Нет",(dialog,id)->{
                 });

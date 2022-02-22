@@ -107,6 +107,11 @@ public class RecycleListFragment extends Fragment implements Login {
                 });
                 return true;
             case R.id.context_delete:
+                Bundle bundle=new Bundle();
+                bundle.putInt("position_to_delete",position);
+                NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
+                noteDialogFragment.setArguments(bundle);
+
 
                 FirebaseFirestore firebaseFirestore =FirebaseFirestore.getInstance();
                 firebaseFirestore.collection(collectionPath).document(dataSource.getData(position).getId()).delete()

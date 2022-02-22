@@ -41,8 +41,8 @@ public class NoteFragment extends Fragment implements Login {
     private ImageView image;
     private EventManager eventManager;
     private Calendar cal = Calendar.getInstance();
-    Context context;
     String collectionPath = "NOTES";
+   private Context context;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();

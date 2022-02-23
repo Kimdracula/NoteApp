@@ -1,16 +1,20 @@
 package com.my.notes.ui;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,6 +33,8 @@ public class StartFragment extends Fragment{
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 1502;
     private TextView emailView;
+    private TextView nickname;
+    private ImageView avatar;
     private MaterialButton buttonContinue;
     private MaterialButton buttonSignOut;
 
@@ -57,11 +63,12 @@ public class StartFragment extends Fragment{
     }
 
     private void initView(View view) {
+        emailView = view.findViewById(R.id.email);
+        nickname = view.findViewById(R.id.nickname);
+        avatar = view.findViewById(R.id.imageViewAvatar);
+
         buttonSignIn = view.findViewById(R.id.sign_in_button);
-        buttonSignIn.setOnClickListener(view1 -> {
-            signIn();
-            emailView = view.findViewById(R.id.email);
-        });
+        buttonSignIn.setOnClickListener(view1 -> signIn());
 
         buttonSignOut = view.findViewById(R.id.sign_out_button);
         buttonSignOut.setOnClickListener(view13 -> signOut());
@@ -86,7 +93,8 @@ public class StartFragment extends Fragment{
         mGoogleSignInClient.signOut().addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                updateUI("");
+                updateUI("","");
+                setAvatar(null);
                 enableSign();
             }
         });
@@ -98,10 +106,9 @@ public class StartFragment extends Fragment{
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
         if (account != null) {
-            // Пользователь уже входил, сделаем кнопку недоступной
             disableSign();
-            // Обновим почтовый адрес этого пользователя и выведем его на экран
-            updateUI(account.getEmail());
+            updateUI(account.getDisplayName(),account.getEmail());
+            setAvatar(account.getPhotoUrl());
         }
 
     }
@@ -122,14 +129,20 @@ public class StartFragment extends Fragment{
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
             disableSign();
-            updateUI(account.getEmail());
+            updateUI(acct.getDisplayName(),acct.getEmail());
+            setAvatar(acct.getPhotoUrl());
         } catch (ApiException e) {
             Log.d("LOG", "signInResult:failed code=" + e.getStatusCode());
         }
     }
 
-    private void updateUI(String email) {
+    private void updateUI(String nick, String email) {
+        nickname.setText(nick);
         emailView.setText(email);
+    }
+
+    private void setAvatar(Uri personAvatar){
+        Glide.with(getContext()).load(String.valueOf(personAvatar)).into(avatar);
     }
 
     // Разрешить аутентификацию и запретить остальные действия
@@ -137,6 +150,11 @@ public class StartFragment extends Fragment{
         buttonSignIn.setEnabled(true);
         buttonContinue.setEnabled(false);
         buttonSignOut.setEnabled(false);
+
+        buttonSignIn.animate().alpha(1).setDuration(2000);
+        buttonSignOut.animate().alpha(0).setDuration(2000);
+        buttonContinue.animate().alpha(0).setDuration(2000);
+
     }
 
     // Запретить аутентификацию (уже прошла) и разрешить остальные действия
@@ -144,7 +162,9 @@ public class StartFragment extends Fragment{
         buttonSignIn.setEnabled(false);
         buttonContinue.setEnabled(true);
         buttonSignOut.setEnabled(true);
-        // buttonContinue.setAlpha(1);
+        buttonSignIn.animate().alpha(0).setDuration(2000);
+        buttonSignOut.animate().alpha(1).setDuration(2000);
+        buttonContinue.animate().alpha(1).setDuration(2000);
     }
 
 

@@ -1,4 +1,5 @@
 package com.my.notes.ui;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,14 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.my.notes.R;
@@ -53,13 +52,11 @@ public class StartFragment extends Fragment{
         enableSign();
     }
 
-
-
     private void initGoogleSign() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
     }
 
     private void initView(View view) {
@@ -90,29 +87,23 @@ public class StartFragment extends Fragment{
     }
 
     private void signOut() {
-        mGoogleSignInClient.signOut().addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                updateUI("","");
-                setAvatar(null);
-                enableSign();
-            }
+        mGoogleSignInClient.signOut().addOnSuccessListener(requireActivity(), unused -> {
+            updateUI("","");
+            setAvatar(null);
+            enableSign();
         });
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(requireContext());
         if (account != null) {
             disableSign();
             updateUI(account.getDisplayName(),account.getEmail());
             setAvatar(account.getPhotoUrl());
         }
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,8 +118,9 @@ public class StartFragment extends Fragment{
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getContext());
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(requireContext());
             disableSign();
+            assert acct != null;
             updateUI(acct.getDisplayName(),acct.getEmail());
             setAvatar(acct.getPhotoUrl());
         } catch (ApiException e) {
@@ -142,10 +134,9 @@ public class StartFragment extends Fragment{
     }
 
     private void setAvatar(Uri personAvatar){
-        Glide.with(getContext()).load(String.valueOf(personAvatar)).into(avatar);
+        Glide.with(requireContext()).load(String.valueOf(personAvatar)).into(avatar);
     }
 
-    // Разрешить аутентификацию и запретить остальные действия
     private void enableSign(){
         buttonSignIn.setEnabled(true);
         buttonContinue.setEnabled(false);
@@ -154,10 +145,8 @@ public class StartFragment extends Fragment{
         buttonSignIn.animate().alpha(1).setDuration(2000);
         buttonSignOut.animate().alpha(0).setDuration(2000);
         buttonContinue.animate().alpha(0).setDuration(2000);
-
     }
 
-    // Запретить аутентификацию (уже прошла) и разрешить остальные действия
     private void disableSign(){
         buttonSignIn.setEnabled(false);
         buttonContinue.setEnabled(true);
@@ -166,6 +155,4 @@ public class StartFragment extends Fragment{
         buttonSignOut.animate().alpha(1).setDuration(2000);
         buttonContinue.animate().alpha(1).setDuration(2000);
     }
-
-
 }

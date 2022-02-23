@@ -50,4 +50,17 @@
     <dimen name="MarginEndFloatingButton">20dp</dimen>
     <dimen name="ButtonDeleteNoteMarginTop">10dp</dimen>
     <dimen name="buttonDeleteNoteMarginBottom">20dp</dimen>
+    <dimen name="g_logo_width">182dp</dimen>
+    <dimen name="g_logo_hight">209dp</dimen>
+    <dimen name="text_size_Sign_in_With">30sp</dimen>
+    <dimen name="start_frag_avatar_width">100dp</dimen>
+    <dimen name="start_frag_avatar_hight">100dp</dimen>
+    <dimen name="margin_top_avatar">20dp</dimen>
+    <dimen name="start_frag_margin_top">5dp</dimen>
+    <dimen name="nick_text_size">20sp</dimen>
+    <dimen name="email_text_size">20sp</dimen>
+    <dimen name="sign_in_button_width">210dp</dimen>
+    <dimen name="sign_in_button_height">45dp</dimen>
+    <dimen name="margin_buttons_start_frag">10dp</dimen>
+    <dimen name="start_frag_button_height">45dp</dimen>
 </resources>

@@ -1,5 +1,4 @@
 package com.my.notes.ui;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.my.notes.R;
@@ -30,6 +30,7 @@ public class StartFragment extends Fragment{
     private static final int RC_SIGN_IN = 1502;
     private TextView emailView;
     private MaterialButton buttonContinue;
+    private MaterialButton buttonSignOut;
 
     @Nullable
     @Override
@@ -56,10 +57,14 @@ public class StartFragment extends Fragment{
     }
 
     private void initView(View view) {
-        emailView = view.findViewById(R.id.email);
-
         buttonSignIn = view.findViewById(R.id.sign_in_button);
-        buttonSignIn.setOnClickListener(view1 -> signIn());
+        buttonSignIn.setOnClickListener(view1 -> {
+            signIn();
+            emailView = view.findViewById(R.id.email);
+        });
+
+        buttonSignOut = view.findViewById(R.id.sign_out_button);
+        buttonSignOut.setOnClickListener(view13 -> signOut());
 
         buttonContinue = view.findViewById(R.id.button_continue);
         buttonContinue.setOnClickListener(view12 -> {
@@ -75,6 +80,16 @@ public class StartFragment extends Fragment{
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut().addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                updateUI("");
+                enableSign();
+            }
+        });
     }
 
 
@@ -120,13 +135,16 @@ public class StartFragment extends Fragment{
     // Разрешить аутентификацию и запретить остальные действия
     private void enableSign(){
         buttonSignIn.setEnabled(true);
-      //  buttonContinue.setEnabled(false);
+        buttonContinue.setEnabled(false);
+        buttonSignOut.setEnabled(false);
     }
 
     // Запретить аутентификацию (уже прошла) и разрешить остальные действия
     private void disableSign(){
         buttonSignIn.setEnabled(false);
-      //  buttonContinue.setEnabled(true);
+        buttonContinue.setEnabled(true);
+        buttonSignOut.setEnabled(true);
+        // buttonContinue.setAlpha(1);
     }
 
 

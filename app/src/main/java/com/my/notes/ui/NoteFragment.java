@@ -20,6 +20,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.my.notes.MainActivity;
 import com.my.notes.R;
@@ -41,8 +46,11 @@ public class NoteFragment extends Fragment implements Login {
     private ImageView image;
     private EventManager eventManager;
     private Calendar cal;
-    private final String collectionPath = "NOTES";
+    private final String collectionPath = "NOTES_REAL_DB";
     private Context context;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
@@ -75,6 +83,10 @@ public class NoteFragment extends Fragment implements Login {
             cardData = getArguments().getParcelable(login);
             populateViews();}
         else setDefaultDate();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference(collectionPath);
+
         }
 
     private void setDefaultDate() {
@@ -100,9 +112,21 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onStop() {
         super.onStop();
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         CardData updatedCardData = collectCardData();
-        if (getArguments()==null) {
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    databaseReference.setValue(updatedCardData);
+                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+         /*   firebaseDatabase.getReference(collectionPath).ad
         firebaseFirestore.collection(collectionPath)
             .add(updatedCardData).addOnSuccessListener(documentReference ->
                     Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show())
@@ -112,7 +136,8 @@ public class NoteFragment extends Fragment implements Login {
             firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
                     Toast.makeText(context, "Your note has been added", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show());
-        }
+        }*/
+
         eventManager.notify(updatedCardData);
     }
 

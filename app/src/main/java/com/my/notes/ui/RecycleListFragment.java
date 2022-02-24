@@ -2,6 +2,7 @@ package com.my.notes.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -17,8 +18,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,7 +48,6 @@ public class RecycleListFragment extends Fragment implements Login {
         adapter = new RecycleAdapter(this);
         dataSource = new DataSourceImp().init(cardsData -> adapter.notifyDataSetChanged());
         return inflater.inflate(R.layout.recycle_list, container, false);
-
     }
 
     @Override
@@ -112,21 +110,10 @@ public class RecycleListFragment extends Fragment implements Login {
                 NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
                 noteDialogFragment.setArguments(bundle);
 
-
                 FirebaseFirestore firebaseFirestore =FirebaseFirestore.getInstance();
                 firebaseFirestore.collection(collectionPath).document(dataSource.getData(position).getId()).delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                  @Override
-                                                  public void onSuccess(Void unused) {
-
-                                                  }
-                                              }
-                        ).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
+                        .addOnSuccessListener(unused -> Log.d("Success TAG", "Its ok with reading Firebase ")
+                        ).addOnFailureListener(e -> Log.d("Error TAG", "get failed with reading Firebase -"+e));
                 dataSource.deleteData(position);
                 adapter.notifyItemRemoved(position);
                 return true;
@@ -192,7 +179,4 @@ public class RecycleListFragment extends Fragment implements Login {
         String date = sdf.format(Calendar.getInstance().getTime());
         textViewDate.setText(date);
     }
-
-
-
     }

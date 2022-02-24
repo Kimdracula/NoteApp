@@ -142,17 +142,17 @@ public class StartFragment extends Fragment{
         buttonContinue.setEnabled(false);
         buttonSignOut.setEnabled(false);
 
-        buttonSignIn.animate().alpha(1).setDuration(2000);
-        buttonSignOut.animate().alpha(0).setDuration(2000);
-        buttonContinue.animate().alpha(0).setDuration(2000);
+        buttonSignIn.animate().alpha(1).setDuration(1000);
+        buttonSignOut.animate().alpha(0).setDuration(1000);
+        buttonContinue.animate().alpha(0).setDuration(1000);
     }
 
     private void disableSign(){
         buttonSignIn.setEnabled(false);
         buttonContinue.setEnabled(true);
         buttonSignOut.setEnabled(true);
-        buttonSignIn.animate().alpha(0).setDuration(2000);
-        buttonSignOut.animate().alpha(1).setDuration(2000);
-        buttonContinue.animate().alpha(1).setDuration(2000);
+        buttonSignIn.animate().alpha(0).setDuration(1000);
+        buttonSignOut.animate().alpha(1).setDuration(1000);
+        buttonContinue.animate().alpha(1).setDuration(1000);
     }
 }

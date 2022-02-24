@@ -40,9 +40,9 @@ public class NoteFragment extends Fragment implements Login {
     private int picture;
     private ImageView image;
     private EventManager eventManager;
-    private Calendar cal = Calendar.getInstance();
-    String collectionPath = "NOTES";
-   private Context context;
+    private Calendar cal;
+    private final String collectionPath = "NOTES";
+    private Context context;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
@@ -68,6 +68,7 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        cal = Calendar.getInstance();
         initTextViews(view);
         initButtonDelete(view);
         if (getArguments() != null) {
@@ -136,7 +137,6 @@ public class NoteFragment extends Fragment implements Login {
     public void onDestroy() {
         eventManager.notify(cardData);
         super.onDestroy();
-
     }
 
     private void populateViews() {
@@ -206,6 +206,5 @@ textViewDate.setText(day + "." + month + "."+ year);
             image.setImageURI(selectedImage);
         }
     }
-
 }
 

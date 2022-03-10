@@ -1,7 +1,6 @@
 package com.my.notes.ui;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,11 +19,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.my.notes.MainActivity;
 import com.my.notes.R;
@@ -46,11 +40,8 @@ public class NoteFragment extends Fragment implements Login {
     private ImageView image;
     private EventManager eventManager;
     private Calendar cal;
-    private final String collectionPath = "NOTES_REAL_DB";
+    private final String collectionPath = "NOTES";
     private Context context;
-
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
@@ -83,11 +74,7 @@ public class NoteFragment extends Fragment implements Login {
             cardData = getArguments().getParcelable(login);
             populateViews();}
         else setDefaultDate();
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference(collectionPath);
-
-        }
+    }
 
     private void setDefaultDate() {
         textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(Calendar.getInstance().getTime()));
@@ -112,32 +99,19 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onStop() {
         super.onStop();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         CardData updatedCardData = collectCardData();
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    databaseReference.setValue(updatedCardData);
-                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-         /*   firebaseDatabase.getReference(collectionPath).ad
-        firebaseFirestore.collection(collectionPath)
-            .add(updatedCardData).addOnSuccessListener(documentReference ->
-                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show())
+        if (getArguments()==null) {
+            firebaseFirestore.collection(collectionPath)
+                    .add(updatedCardData).addOnSuccessListener(documentReference ->
+                    Toast.makeText(context, "Your note has been added", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(context, "Error while updating note", Toast.LENGTH_SHORT).show());
         }
         else{
             firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
-                    Toast.makeText(context, "Your note has been added", Toast.LENGTH_SHORT).show())
+                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show());
-        }*/
-
+        }
         eventManager.notify(updatedCardData);
     }
 
@@ -151,7 +125,7 @@ public class NoteFragment extends Fragment implements Login {
         }
         Date date;
         try{
-        date = getDateFromDatePicker();}
+            date = getDateFromDatePicker();}
         catch (NullPointerException ignored){
             date = Calendar.getInstance().getTime();
         }
@@ -165,10 +139,10 @@ public class NoteFragment extends Fragment implements Login {
     }
 
     private void populateViews() {
-          textHeader.setText(cardData.getHeader());
-          textDescription.setText(cardData.getDescription());
-          textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(cardData.getDate()));
-          image.setImageResource(cardData.getPicture());
+        textHeader.setText(cardData.getHeader());
+        textDescription.setText(cardData.getDescription());
+        textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(cardData.getDate()));
+        image.setImageResource(cardData.getPicture());
 
     }
 
@@ -195,7 +169,7 @@ public class NoteFragment extends Fragment implements Login {
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-textViewDate.setText(day + "." + month + "."+ year);
+            textViewDate.setText(day + "." + month + "."+ year);
         }
     };
 
@@ -205,7 +179,7 @@ textViewDate.setText(day + "." + month + "."+ year);
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH));
-                cal.get(Calendar.HOUR_OF_DAY);
+        cal.get(Calendar.HOUR_OF_DAY);
         datePickerDialog.show();
     }
 
@@ -224,7 +198,7 @@ textViewDate.setText(day + "." + month + "."+ year);
     }
 
     @Override
- public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK&&data!=null){
             Uri selectedImage = data.getData();
@@ -232,4 +206,3 @@ textViewDate.setText(day + "." + month + "."+ year);
         }
     }
 }
-

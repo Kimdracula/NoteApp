@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="@dimen/card_elevation">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_top_recycle_item"
+    android:layout_marginBottom="@dimen/margin_bottom_recycle_item"
+    android:minHeight="@dimen/card_min_height"
+    android:paddingStart="@dimen/padding_start_recycle_item"
+    android:paddingVertical="@dimen/padding_vertical_recycle_item"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textViewHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_header"
+        android:textColor="@color/material_on_background_emphasis_high_type"
+        android:textSize="@dimen/text_size_header_recycle_item"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/material_on_surface_emphasis_medium"
+        android:textSize="@dimen/text_size_description_recycle_item"
+        android:text="@string/text_description"/>
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#C5E1A5"
+        android:alpha="0.6"
+        android:textSize="@dimen/text_size_date_recycle_item"
+        android:text="@string/date"
+
+        />
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

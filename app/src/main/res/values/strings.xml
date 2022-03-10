@@ -22,5 +22,20 @@
     <string name="light_theme_applyed">Light Theme установлена</string>
     <string name="purple_theme_applyed">Purple Theme установлена</string>
     <string name="blue_theme_applyed">Blue Theme установлена</string>
+    <string name="addNote">Добавить заметку</string>
+    <string name="date">10 Декабря, Пн</string>
+    <string name="setDate">Установить дату</string>
+    <string name="header">Заголовок</string>
+    <string name="Description">Описание</string>
+    <string name="add_new_Notebutton">+ Новая заметка</string>
+    <string name="myNotes">Мои заметки</string>
+    <string name="tetx_delete_note">Удалить заметку</string>
+    <string name="text_header">Header</string>
+    <string name="text_description">Description</string>
+    <string name="text_new_note">+ Новая заметка</string>
+    <string name="text_my_notes">Мои заметки</string>
+    <string name="text_go_to_notes">К списку заметок</string>
+    <string name="text_about">О приложении</string>
+    <string name="text_settings">Настройки</string>
 
 </resources>

@@ -1,28 +1,24 @@
-package com.homework.homework_6;
+package com.my.notes;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
-import com.homework.homework_6.observer.EventManager;
-import com.homework.homework_6.ui.AboutFragment;
-import com.homework.homework_6.ui.ExitDialogFragment;
-import com.homework.homework_6.ui.SettingsFragment;
-import com.homework.homework_6.ui.StartFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.my.notes.observer.EventManager;
+import com.my.notes.ui.AboutFragment;
+import com.my.notes.ui.ExitDialogFragment;
+import com.my.notes.ui.SettingsFragment;
+import com.my.notes.ui.StartFragment;
 
 public class MainActivity extends AppCompatActivity {
- StartFragment startFragment;
- AboutFragment aboutFragment;
- SettingsFragment settingsFragment;
-    EventManager eventManager;
+    private StartFragment startFragment;
+    private AboutFragment aboutFragment;
+    private SettingsFragment settingsFragment;
+    private   EventManager eventManager;
 
-    public SharedPreferences getSharedPref() {
-        return sharedPref;
-    }
 
-    SharedPreferences sharedPref;
 
     public EventManager getEventManager() {
         return eventManager;
@@ -40,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
         eventManager = new EventManager();
-        sharedPref = getPreferences(MODE_PRIVATE);
     }
 
     private void initDrawer() {

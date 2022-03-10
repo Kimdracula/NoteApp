@@ -1,4 +1,4 @@
-package com.homework.homework_6.ui;
+package com.my.notes.ui;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.homework.homework_6.R;
+import com.my.notes.R;
 
 
 public class AboutFragment extends Fragment {

@@ -1,6 +1,6 @@
-package com.homework.homework_6.observer;
+package com.my.notes.observer;
 
-import com.homework.homework_6.data.CardData;
+import com.my.notes.data.CardData;
 
 import java.util.ArrayList;
 import java.util.List;

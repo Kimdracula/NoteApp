@@ -1,11 +1,9 @@
-package com.homework.homework_6.ui;
+package com.my.notes.ui;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,15 +19,16 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.gson.GsonBuilder;
-import com.homework.homework_6.MainActivity;
-import com.homework.homework_6.R;
-import com.homework.homework_6.data.CardData;
-import com.homework.homework_6.data.Login;
-import com.homework.homework_6.observer.EventManager;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.my.notes.MainActivity;
+import com.my.notes.R;
+import com.my.notes.data.CardData;
+import com.my.notes.data.Login;
+import com.my.notes.observer.EventManager;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class NoteFragment extends Fragment implements Login {
     private MaterialTextView textViewDate;
@@ -39,7 +39,9 @@ public class NoteFragment extends Fragment implements Login {
     private int picture;
     private ImageView image;
     private EventManager eventManager;
-    private Calendar cal = Calendar.getInstance();
+    private Calendar cal;
+    private final String collectionPath = "NOTES";
+    private Context context;
 
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
@@ -65,13 +67,14 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        cal = Calendar.getInstance();
         initTextViews(view);
         initButtonDelete(view);
         if (getArguments() != null) {
             cardData = getArguments().getParcelable(login);
             populateViews();}
         else setDefaultDate();
-        }
+    }
 
     private void setDefaultDate() {
         textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(Calendar.getInstance().getTime()));
@@ -82,7 +85,7 @@ public class NoteFragment extends Fragment implements Login {
         super.onAttach(context);
         MainActivity mainActivity = (MainActivity)context;
         eventManager = mainActivity.getEventManager();
-
+        this.context = mainActivity.getApplicationContext();
     }
 
 
@@ -96,11 +99,24 @@ public class NoteFragment extends Fragment implements Login {
     @Override
     public void onStop() {
         super.onStop();
-        cardData = collectCardData();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        CardData updatedCardData = collectCardData();
+        if (getArguments()==null) {
+            firebaseFirestore.collection(collectionPath)
+                    .add(updatedCardData).addOnSuccessListener(documentReference ->
+                    Toast.makeText(context, "Your note has been added", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(context, "Error while updating note", Toast.LENGTH_SHORT).show());
+        }
+        else{
+            firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
+                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show());
+        }
+        eventManager.notify(updatedCardData);
     }
 
     private CardData collectCardData() {
-        String title = this.textHeader.getText().toString();
+        String title = Objects.requireNonNull(this.textHeader.getText()).toString();
         String description = this.textDescription.getText().toString();
         try {
             this.picture = cardData.getPicture();
@@ -109,7 +125,7 @@ public class NoteFragment extends Fragment implements Login {
         }
         Date date;
         try{
-        date = getDateFromDatePicker();}
+            date = getDateFromDatePicker();}
         catch (NullPointerException ignored){
             date = Calendar.getInstance().getTime();
         }
@@ -120,14 +136,13 @@ public class NoteFragment extends Fragment implements Login {
     public void onDestroy() {
         eventManager.notify(cardData);
         super.onDestroy();
-
     }
 
     private void populateViews() {
-          textHeader.setText(cardData.getHeader());
-          textDescription.setText(cardData.getDescription());
-          textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(cardData.getDate()));
-          image.setImageResource(cardData.getPicture());
+        textHeader.setText(cardData.getHeader());
+        textDescription.setText(cardData.getDescription());
+        textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(cardData.getDate()));
+        image.setImageResource(cardData.getPicture());
 
     }
 
@@ -154,7 +169,7 @@ public class NoteFragment extends Fragment implements Login {
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-textViewDate.setText(day + "." + month + "."+ year);
+            textViewDate.setText(day + "." + month + "."+ year);
         }
     };
 
@@ -164,7 +179,7 @@ textViewDate.setText(day + "." + month + "."+ year);
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH));
-                cal.get(Calendar.HOUR_OF_DAY);
+        cal.get(Calendar.HOUR_OF_DAY);
         datePickerDialog.show();
     }
 
@@ -183,13 +198,11 @@ textViewDate.setText(day + "." + month + "."+ year);
     }
 
     @Override
- public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK&&data!=null){
             Uri selectedImage = data.getData();
             image.setImageURI(selectedImage);
         }
     }
-
 }
-

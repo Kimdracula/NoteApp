@@ -1,4 +1,4 @@
-package com.homework.homework_6;
+package com.my.notes;
 
 import org.junit.Test;
 

@@ -46,7 +46,7 @@
         android:id="@+id/editTextDescription"
         android:background="@null"
         android:layout_marginTop="@dimen/editTextMarginTop"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/EditTextWidth"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_start_note_fragment"
         android:text=""

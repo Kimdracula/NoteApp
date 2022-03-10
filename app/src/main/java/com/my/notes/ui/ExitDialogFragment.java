@@ -1,4 +1,4 @@
-package com.homework.homework_6.ui;
+package com.my.notes.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.homework.homework_6.MainActivity;
+import com.my.notes.MainActivity;
 
 public class ExitDialogFragment extends DialogFragment {
     @NonNull

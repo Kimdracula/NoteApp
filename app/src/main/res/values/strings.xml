@@ -41,5 +41,8 @@
     <string name="text_change_context">Изменить</string>
     <string name="TitleEditText">Название</string>
     <string name="editTextDescription">Введите текст здесь</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="exit_text">Выйти</string>
+    <string name="continue_text">Продолжить</string>
 
 </resources>

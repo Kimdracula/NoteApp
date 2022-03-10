@@ -1,7 +1,9 @@
-package com.homework.homework_6.data;
+package com.my.notes.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.firebase.firestore.Exclude;
 
 import java.util.Date;
 
@@ -10,6 +12,16 @@ public class CardData implements Parcelable{
     private String description;
     private int picture;
     private Date date;
+    @Exclude
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 
     public CardData(String header, String description, int picture, Date date) {
@@ -36,6 +48,9 @@ public class CardData implements Parcelable{
             return new CardData[size];
         }
     };
+
+    public CardData() {
+    }
 
     public String getHeader() {
         return header;

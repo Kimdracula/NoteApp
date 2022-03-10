@@ -20,8 +20,8 @@
 
         <TextView
             android:id="@+id/textViewHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/recycle_item_header_width"
+            android:layout_height="@dimen/recycle_item_header_height"
             android:text="@string/text_header"
             android:textColor="@color/material_on_background_emphasis_high_type"
             android:textSize="@dimen/text_size_header_recycle_item"
@@ -31,9 +31,9 @@
 
         <TextView
             android:id="@+id/textViewDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="30dp"
+            android:layout_width="@dimen/recycle_item_header_width"
+            android:layout_height="@dimen/recycle_item_description_height"
+            android:paddingTop="@dimen/recycle_item_padding_top"
             android:text="@string/text_description"
             android:textColor="@color/material_on_surface_emphasis_medium"
             android:textSize="@dimen/text_size_description_recycle_item"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.6"
-            android:paddingTop="80dp"
+            android:paddingTop="@dimen/recycle_date_padding_top"
             android:text="@string/date"
             android:textColor="#C5E1A5"
             android:textSize="@dimen/text_size_date_recycle_item"
@@ -54,9 +54,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="@dimen/recycle_item_image_size"
+            android:layout_height="@dimen/recycle_item_image_size"
+            android:layout_marginEnd="@dimen/recycle_item_image_margin_end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

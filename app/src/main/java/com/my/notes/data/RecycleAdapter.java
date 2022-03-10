@@ -1,4 +1,4 @@
-package com.homework.homework_6.data;
+package com.my.notes.data;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.homework.homework_6.R;
+import com.my.notes.R;
 
 import java.text.SimpleDateFormat;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteViewHolder> {
-    private DataSource notes;
+    private DataSource dataSource;
     private OnItemClickListener itemClickListener;
     private int lastPosition = -1;
     private Fragment fragment;
@@ -30,12 +30,14 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
 
 
 
-    public RecycleAdapter(DataSource notes, Fragment fragment) {
-        this.notes = notes;
+    public RecycleAdapter(Fragment fragment) {
         this.fragment = fragment;
     }
 
-
+    public void setDataSource(DataSource dataSource){
+        this.dataSource = dataSource;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -47,10 +49,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteView
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-holder.title.setText(notes.getData(position).getHeader());
-holder.description.setText(notes.getData(position).getDescription());
-holder.imageView.setImageResource(notes.getData(position).getPicture());
-holder.date.setText(new SimpleDateFormat("dd.MMM.yyyy").format(notes.getData(position).getDate()));
+holder.title.setText(dataSource.getData(position).getHeader());
+holder.description.setText(dataSource.getData(position).getDescription());
+holder.imageView.setImageResource(dataSource.getData(position).getPicture());
+holder.date.setText(new SimpleDateFormat("dd.MMM.yyyy").format(dataSource.getData(position).getDate()));
 
 setAnimation(holder.itemView, position);
 
@@ -68,7 +70,7 @@ setAnimation(holder.itemView, position);
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return dataSource.size();
     }
 
     public void setItemClickListener(OnItemClickListener itemClickListener) {

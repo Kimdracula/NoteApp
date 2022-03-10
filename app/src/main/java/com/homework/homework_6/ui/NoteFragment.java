@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.gson.GsonBuilder;
 import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
 import com.homework.homework_6.data.CardData;
@@ -39,8 +41,6 @@ public class NoteFragment extends Fragment implements Login {
     private EventManager eventManager;
     private Calendar cal = Calendar.getInstance();
 
-
-    // Для редактирования данных
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
         Bundle args = new Bundle();
@@ -49,7 +49,6 @@ public class NoteFragment extends Fragment implements Login {
         return fragment;
     }
 
-    // Для добавления новых данных
     public static NoteFragment newInstance() {
         NoteFragment fragment = new NoteFragment();
         return fragment;
@@ -83,7 +82,10 @@ public class NoteFragment extends Fragment implements Login {
         super.onAttach(context);
         MainActivity mainActivity = (MainActivity)context;
         eventManager = mainActivity.getEventManager();
+
     }
+
+
 
     @Override
     public void onDetach() {
@@ -103,7 +105,7 @@ public class NoteFragment extends Fragment implements Login {
         try {
             this.picture = cardData.getPicture();
         }catch (NullPointerException ignored) {
-          //  picture = R.drawable.ic_theme;
+
         }
         Date date;
         try{
@@ -116,8 +118,9 @@ public class NoteFragment extends Fragment implements Login {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         eventManager.notify(cardData);
+        super.onDestroy();
+
     }
 
     private void populateViews() {

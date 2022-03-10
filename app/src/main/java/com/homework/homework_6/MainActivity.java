@@ -1,5 +1,6 @@
 package com.homework.homework_6;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,12 @@ public class MainActivity extends AppCompatActivity {
  SettingsFragment settingsFragment;
     EventManager eventManager;
 
+    public SharedPreferences getSharedPref() {
+        return sharedPref;
+    }
+
+    SharedPreferences sharedPref;
+
     public EventManager getEventManager() {
         return eventManager;
     }
@@ -33,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,startFragment).commit();
         initDrawer();
         eventManager = new EventManager();
-
+        sharedPref = getPreferences(MODE_PRIVATE);
     }
 
     private void initDrawer() {

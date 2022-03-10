@@ -9,14 +9,8 @@ public class DataSourceImp implements DataSource {
     private ArrayList <CardData> notes;
     public DataSourceImp init(){
     notes = new ArrayList<>();
-
-for (int i =0; i<10; i++){
-   notes.add(new CardData("Заметка "+i, "Описание "+i, R.drawable.audi,Calendar.getInstance().getTime()));
-}
 return this;
 }
-
-
     @Override
     public CardData getData(int position) {
         return notes.get(position);
@@ -40,5 +34,10 @@ return this;
     @Override
     public CardData deleteData(int position) {
         return notes.remove(position);
+    }
+
+    @Override
+    public ArrayList<CardData> list() {
+        return notes;
     }
 }

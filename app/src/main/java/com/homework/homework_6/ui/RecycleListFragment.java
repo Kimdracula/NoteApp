@@ -1,7 +1,13 @@
 package com.homework.homework_6.ui;
 
+import android.content.Context;
 import android.os.Bundle;
-
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,27 +17,31 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.homework.homework_6.MainActivity;
 import com.homework.homework_6.R;
+import com.homework.homework_6.data.CardData;
 import com.homework.homework_6.data.DataSource;
 import com.homework.homework_6.data.DataSourceImp;
 import com.homework.homework_6.data.Login;
 import com.homework.homework_6.data.RecycleAdapter;
+import com.homework.homework_6.observer.EventListener;
+import com.homework.homework_6.observer.EventManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class RecycleListFragment extends Fragment implements Login {
-MaterialButton addNoteButton;
-MaterialTextView textViewDate;
+    private RecycleAdapter adapter;
+    private  DataSource dataSource;
+    private EventManager eventManager;
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataSource = new DataSourceImp().init();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +54,6 @@ MaterialTextView textViewDate;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycle_list);
-        DataSource dataSource = new DataSourceImp().init();
         initRecyclerView(recyclerView, dataSource);
         initItemAnimator(recyclerView);
         initDecorator(recyclerView);
@@ -52,16 +61,66 @@ MaterialTextView textViewDate;
         initViews(view);
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        MainActivity activity = (MainActivity)context;
+        eventManager = activity.getEventManager();
+    }
+
+    @Override
+    public void onDetach() {
+        eventManager = null;
+        super.onDetach();
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = adapter.getMenuPosition();
+        switch(item.getItemId()) {
+            case R.id.context_change:
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container,NoteFragment
+                        .newInstance(dataSource.getData(position)));
+                transactionCommit(fragmentTransaction);
+                eventManager.subscribe(cardData -> {
+                    dataSource.changeData(position, cardData);
+                    adapter.notifyItemChanged(position);
+                });
+                return true;
+            case R.id.context_delete:
+                dataSource.deleteData(position);
+                adapter.notifyItemRemoved(position);
+                return true;
+        }
+
+        return super.onContextItemSelected(item);
+
+    }
+
     private void initViews(@NonNull View view) {
-        addNoteButton = view.findViewById(R.id.buttonAddNote);
+        MaterialButton addNoteButton = view.findViewById(R.id.buttonAddNote);
         addNoteButton.setOnClickListener(view1 -> {
-            AddFragment addFragment = new AddFragment();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            fragmentTransaction.replace(R.id.fragment_container,addFragment);
+            fragmentTransaction.replace(R.id.fragment_container,NoteFragment.newInstance());
             transactionCommit(fragmentTransaction);
+            eventManager.subscribe(new EventListener() {
+                @Override
+                public void updateData(CardData cardData) {
+                    dataSource.addData(cardData);
+                    adapter.notifyItemInserted(dataSource.size()-1);
 
+                }
+            });
         });
     }
 
@@ -70,19 +129,19 @@ MaterialTextView textViewDate;
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        RecycleAdapter adapter = new RecycleAdapter(data);
+        adapter = new RecycleAdapter(data,this);
         recyclerView.setAdapter(adapter);
-        adapter.setItemClickListener((view, position) -> {
-            NoteFragment noteFragment = new NoteFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(login,position);
-           noteFragment.setArguments(bundle);
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,noteFragment);
-            transactionCommit(fragmentTransaction);
+         adapter.setItemClickListener((view, position) -> {
+             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+             fragmentTransaction.replace(R.id.fragment_container,NoteFragment
+                     .newInstance(dataSource.getData(position)));
+             transactionCommit(fragmentTransaction);
+                 eventManager.subscribe(cardData -> {
+                 dataSource.changeData(position, cardData);
+                 adapter.notifyItemChanged(position);
+             });
         });
-
     }
     private void initItemAnimator(RecyclerView recyclerView) {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator(); itemAnimator.setAddDuration( 1000 ); itemAnimator.setRemoveDuration( 1000 );
@@ -102,7 +161,7 @@ MaterialTextView textViewDate;
     }
 
     private void initDate(View view) {
-        textViewDate = view.findViewById(R.id.textViewDateRL);
+        MaterialTextView textViewDate = view.findViewById(R.id.textViewDateRL);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd-EEEE-yyyy");
         String date = sdf.format(Calendar.getInstance().getTime());
         textViewDate.setText(date);

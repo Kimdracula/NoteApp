@@ -63,4 +63,11 @@
     <dimen name="sign_in_button_height">45dp</dimen>
     <dimen name="margin_buttons_start_frag">10dp</dimen>
     <dimen name="start_frag_button_height">45dp</dimen>
+    <dimen name="recycle_item_header_width">220dp</dimen>
+    <dimen name="recycle_item_header_height">20dp</dimen>
+    <dimen name="recycle_item_description_height">70dp</dimen>
+    <dimen name="recycle_item_padding_top">30dp</dimen>
+    <dimen name="recycle_date_padding_top">80dp</dimen>
+    <dimen name="recycle_item_image_size">110dp</dimen>
+    <dimen name="recycle_item_image_margin_end">20dp</dimen>
 </resources>

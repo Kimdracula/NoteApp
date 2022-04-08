@@ -1,5 +1,5 @@
-package com.my.notes.data;
+package com.my.notes.data
 
-public interface CardDataResponse {
-    void initialized(DataSource cardsData);
+interface CardDataResponse {
+    fun initialized(cardsData: DataSource?)
 }

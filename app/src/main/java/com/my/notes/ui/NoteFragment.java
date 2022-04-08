@@ -1,6 +1,8 @@
 package com.my.notes.ui;
 
 import static android.app.Activity.RESULT_OK;
+import static com.my.notes.utils.Key4ParcelizeKt.KEY_PARCEL;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,14 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.my.notes.MainActivity;
 import com.my.notes.R;
 import com.my.notes.data.CardData;
-import com.my.notes.data.Login;
 import com.my.notes.observer.EventManager;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class NoteFragment extends Fragment implements Login {
+public class NoteFragment extends Fragment{
     private MaterialTextView textViewDate;
     private  TextInputEditText textHeader;
     private  TextInputEditText textDescription;
@@ -46,7 +47,7 @@ public class NoteFragment extends Fragment implements Login {
     public static NoteFragment newInstance(CardData cardData) {
         NoteFragment fragment = new NoteFragment();
         Bundle args = new Bundle();
-        args.putParcelable(login, cardData);
+        args.putParcelable(KEY_PARCEL, cardData);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,7 +72,7 @@ public class NoteFragment extends Fragment implements Login {
         initTextViews(view);
         initButtonDelete(view);
         if (getArguments() != null) {
-            cardData = getArguments().getParcelable(login);
+            cardData = getArguments().getParcelable(KEY_PARCEL);
             populateViews();}
         else setDefaultDate();
     }

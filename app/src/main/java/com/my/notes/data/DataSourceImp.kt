@@ -1,66 +1,54 @@
-package com.my.notes.data;
+package com.my.notes.data
 
-import android.util.Log;
+import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class DataSourceImp implements DataSource {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    String collectionPath = "NOTES";
-    private ArrayList <CardData> notes;
-
-    @Override
-    public DataSource init(CardDataResponse cardDataResponse) {
-        notes = new ArrayList<>();
-        firebaseFirestore.collection(collectionPath).orderBy("date", Query.Direction.DESCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                for (DocumentSnapshot d : list) {
-                    CardData c = d.toObject(CardData.class);
-                    c.setId(d.getId());
-                    notes.add(c);
-                    cardDataResponse.initialized(DataSourceImp.this);
+class DataSourceImp : DataSource {
+    private var firebaseFirestore = FirebaseFirestore.getInstance()
+    private var collectionPath = "NOTES"
+    private var notes: ArrayList<CardData?>? = null
+    override fun init(cardDataResponse: CardDataResponse?): DataSource {
+        notes = ArrayList()
+        firebaseFirestore.collection(collectionPath).orderBy("date", Query.Direction.DESCENDING)
+            .get().addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
+            if (!queryDocumentSnapshots.isEmpty) {
+                val list = queryDocumentSnapshots.documents
+                for (d in list) {
+                    val c = d.toObject(CardData::class.java)
+                    c!!.id = d.id
+                    notes!!.add(c)
+                    cardDataResponse!!.initialized(this@DataSourceImp)
                 }
             }
-
-        }).addOnFailureListener(e -> {
-            Log.d("Error TAG", "get failed with reading Firebase ");
-
-        });
-        if (cardDataResponse != null){
-            cardDataResponse.initialized(this);
+        }.addOnFailureListener {
+                Log.d(
+                "Error TAG",
+                "get failed with reading Firebase "
+            )
         }
-        return this;
+        cardDataResponse?.initialized(this)
+        return this
     }
 
-    @Override
-    public CardData getData(int position) {
-        return notes.get(position);
+    override fun getData(position: Int): CardData? {
+        return notes!![position]
     }
 
-    @Override
-    public int size() {
-        return notes.size();
+    override fun size(): Int {
+        return notes!!.size
     }
 
-    @Override
-    public void changeData(int position, CardData cardData) {
-        notes.set(position, cardData);
+    override fun changeData(position: Int, cardData: CardData?) {
+        notes!![position] = cardData
     }
 
-    @Override
-    public void addData(CardData cardData) {
-        notes.add(cardData);
+    override fun addData(cardData: CardData?) {
+        notes!!.add(cardData)
     }
 
-    @Override
-    public CardData deleteData(int position) {
-        return notes.remove(position);
+    override fun deleteData(position: Int): CardData? {
+        return notes!!.removeAt(position)
     }
-
 }

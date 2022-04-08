@@ -25,13 +25,12 @@ import com.my.notes.MainActivity;
 import com.my.notes.R;
 import com.my.notes.data.DataSource;
 import com.my.notes.data.DataSourceImp;
-import com.my.notes.data.Login;
 import com.my.notes.data.RecycleAdapter;
 import com.my.notes.observer.EventManager;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class RecycleListFragment extends Fragment implements Login {
+public class RecycleListFragment extends Fragment {
     private RecycleAdapter adapter;
     private  DataSource dataSource;
     private EventManager eventManager;

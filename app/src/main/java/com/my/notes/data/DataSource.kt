@@ -1,12 +1,10 @@
-package com.my.notes.data;
+package com.my.notes.data
 
-public interface DataSource {
-        DataSource init(CardDataResponse cardDataResponse);
-        CardData getData(int position);
-        int size();
-        void changeData(int position, CardData cardData);
-        void addData(CardData cardData);
-        CardData deleteData(int position);
-
-    }
-
+interface DataSource {
+    fun init(cardDataResponse: CardDataResponse?): DataSource?
+    fun getData(position: Int): CardData?
+    fun size(): Int
+    fun changeData(position: Int, cardData: CardData?)
+    fun addData(cardData: CardData?)
+    fun deleteData(position: Int): CardData?
+}

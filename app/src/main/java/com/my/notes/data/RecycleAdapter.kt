@@ -1,117 +1,92 @@
-package com.my.notes.data;
+package com.my.notes.data
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.my.notes.data.RecycleAdapter.NoteViewHolder
+import com.my.notes.databinding.RecycleItemBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
+class RecycleAdapter(private val fragment: Fragment?) : RecyclerView.Adapter<NoteViewHolder>() {
+    private var dataSource: DataSource? = null
+    private var itemClickListener: OnItemClickListener? = null
+    private var lastPosition = -1
+    var menuPosition = 0
 
-import com.my.notes.R;
 
-import java.text.SimpleDateFormat;
-
-public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.NoteViewHolder> {
-    private DataSource dataSource;
-    private OnItemClickListener itemClickListener;
-    private int lastPosition = -1;
-    private Fragment fragment;
-    private int menuPosition;
-
-    public int getMenuPosition() {
-        return menuPosition;
+    fun setDataSource(dataSource: DataSource?) {
+        this.dataSource = dataSource
+        notifyDataSetChanged()
     }
 
-
-
-
-    public RecycleAdapter(Fragment fragment) {
-        this.fragment = fragment;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
+        val binding = RecycleItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NoteViewHolder(binding)
     }
 
-    public void setDataSource(DataSource dataSource){
-        this.dataSource = dataSource;
-        notifyDataSetChanged();
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+        dataSource?.getData(position)?.let { holder.bind(it) }
+        setAnimation(holder.itemView, position)
     }
 
-    @NonNull
-    @Override
-    public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycle_item,parent,false);
-        return new NoteViewHolder(view) ;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-holder.title.setText(dataSource.getData(position).getHeader());
-holder.description.setText(dataSource.getData(position).getDescription());
-holder.imageView.setImageResource(dataSource.getData(position).getPicture());
-holder.date.setText(new SimpleDateFormat("dd.MMM.yyyy").format(dataSource.getData(position).getDate()));
-
-setAnimation(holder.itemView, position);
-
-    }
-
-    private void setAnimation(View viewToAnimate, int position)
-    {
-        if (position > lastPosition)
-        {
-            Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
-            viewToAnimate.startAnimation(animation);
-            lastPosition = position;
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        if (position > lastPosition) {
+            val animation =
+                AnimationUtils.loadAnimation(viewToAnimate.context, android.R.anim.slide_in_left)
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return dataSource.size();
+
+    override fun getItemCount(): Int {
+        return dataSource!!.size()!!
     }
 
-    public void setItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    fun setItemClickListener(itemClickListener: OnItemClickListener?) {
+        this.itemClickListener = itemClickListener
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(View view, int position);
+    interface OnItemClickListener {
+        fun onItemClick(view: View?, position: Int)
     }
 
-    public class NoteViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-        private TextView description;
-        private ImageView imageView;
-        private TextView date;
+    inner class NoteViewHolder(private val binding: RecycleItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        public NoteViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.textViewHeader);
-            description = itemView.findViewById(R.id.textViewDescription);
-            imageView = itemView.findViewById(R.id.imageView);
-            date = itemView.findViewById(R.id.textViewDate);
-            registerContextMenu(itemView);
-            itemView.setOnClickListener(view -> {
-                if (itemClickListener != null) {
-                    itemClickListener.onItemClick(view, getAdapterPosition());
+
+        fun bind(cardData: CardData) {
+            with(binding) {
+                textViewHeader.text = cardData.header
+                textViewDescription.text = cardData.description
+                imageView.setImageResource(cardData.picture)
+                textViewDate.text = cardData.date?.let {
+                    SimpleDateFormat(
+                        "dd.MMM.yyyy",
+                        Locale.getDefault()
+                    ).format(it)
                 }
-            });
-           itemView.setOnLongClickListener(view -> {
-               itemView.showContextMenu();
-               menuPosition=getLayoutPosition();
-               return true;
-           });
-
+                registerContextMenu(itemView)
+                itemView.setOnClickListener { view: View? ->
+                    if (itemClickListener != null) {
+                        itemClickListener!!.onItemClick(view, adapterPosition)
+                    }
+                }
+                itemView.setOnLongClickListener {
+                    itemView.showContextMenu()
+                    menuPosition = layoutPosition
+                    true
+                }
+            }
         }
+    }
 
-        private void registerContextMenu(View itemView) {
-            if (fragment!=null){
-                fragment.registerForContextMenu(itemView);}
-        }
-
+    private fun registerContextMenu(itemView: View) {
+        fragment?.registerForContextMenu(itemView)
     }
 
 }

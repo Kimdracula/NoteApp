@@ -1,209 +1,222 @@
-package com.my.notes.ui;
+package com.my.notes.ui
 
-import static android.app.Activity.RESULT_OK;
-import static com.my.notes.utils.Key4ParcelizeKt.KEY_PARCEL;
+import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.my.notes.MainActivity
+import com.my.notes.R
+import com.my.notes.data.CardData
+import com.my.notes.databinding.NoteFragmentBinding
+import com.my.notes.observer.EventManager
+import com.my.notes.utils.COLLECTION_PATH
+import com.my.notes.utils.KEY_PARCEL
+import java.text.SimpleDateFormat
+import java.util.*
 
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.my.notes.MainActivity;
-import com.my.notes.R;
-import com.my.notes.data.CardData;
-import com.my.notes.observer.EventManager;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+class NoteFragment : Fragment() {
+    private lateinit var tvDate: MaterialTextView
+    private lateinit var textHeader: TextInputEditText
+    private lateinit var textDescription: TextInputEditText
+    private var cardData: CardData? = null
+    private lateinit var datePickerDialog: DatePickerDialog
+    private var picture = 0
+    private lateinit var image: ImageView
+    private var eventManager: EventManager? = null
+    private lateinit var cal: Calendar
+    private var _binding: NoteFragmentBinding? = null
+    private val binding get() = _binding!!
 
-public class NoteFragment extends Fragment{
-    private MaterialTextView textViewDate;
-    private  TextInputEditText textHeader;
-    private  TextInputEditText textDescription;
-    private CardData cardData;
-    private DatePickerDialog datePickerDialog;
-    private int picture;
-    private ImageView image;
-    private EventManager eventManager;
-    private Calendar cal;
-    private final String collectionPath = "NOTES";
-    private Context context;
-
-    public static NoteFragment newInstance(CardData cardData) {
-        NoteFragment fragment = new NoteFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(KEY_PARCEL, cardData);
-        fragment.setArguments(args);
-        return fragment;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = NoteFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    public static NoteFragment newInstance() {
-        NoteFragment fragment = new NoteFragment();
-        return fragment;
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        cal = Calendar.getInstance()
+        initTextViews(view)
+        initButtonDelete(view)
+        if (arguments != null) {
+            cardData = requireArguments().getParcelable(KEY_PARCEL)
+            populateViews()
+        } else setDefaultDate()
     }
 
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.note_fragment,container,false);
+    private fun setDefaultDate() {
+        tvDate.text =
+            SimpleDateFormat("dd.MMM.yyyy", Locale.getDefault()).format(Calendar.getInstance().time)
     }
 
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        cal = Calendar.getInstance();
-        initTextViews(view);
-        initButtonDelete(view);
-        if (getArguments() != null) {
-            cardData = getArguments().getParcelable(KEY_PARCEL);
-            populateViews();}
-        else setDefaultDate();
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val mainActivity = context as MainActivity
+        eventManager = mainActivity.eventManager
     }
 
-    private void setDefaultDate() {
-        textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(Calendar.getInstance().getTime()));
+    override fun onDetach() {
+        eventManager = null
+        super.onDetach()
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        MainActivity mainActivity = (MainActivity)context;
-        eventManager = mainActivity.getEventManager();
-        this.context = mainActivity.getApplicationContext();
-    }
-
-
-
-    @Override
-    public void onDetach() {
-        eventManager = null;
-        super.onDetach();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        CardData updatedCardData = collectCardData();
-        if (getArguments()==null) {
-            firebaseFirestore.collection(collectionPath)
-                    .add(updatedCardData).addOnSuccessListener(documentReference ->
-                    Toast.makeText(context, "Your note has been added", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(context, "Error while updating note", Toast.LENGTH_SHORT).show());
+    override fun onStop() {
+        super.onStop()
+        val firebaseFirestore = FirebaseFirestore.getInstance()
+        val updatedCardData = collectCardData()
+        if (arguments == null) {
+            firebaseFirestore.collection(COLLECTION_PATH)
+                .add(updatedCardData)
+                .addOnSuccessListener {
+                    Toast.makeText(
+                        context,
+                        "Your note has been added",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Error while updating note",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } else {
+            firebaseFirestore.collection(COLLECTION_PATH).document(cardData!!.id!!)
+                .set(updatedCardData).addOnSuccessListener {
+                    Toast.makeText(
+                        context,
+                        "Your note has been updated",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        context,
+                        "Error while adding note",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
-        else{
-            firebaseFirestore.collection(collectionPath).document(cardData.getId()).set(updatedCardData).addOnSuccessListener(documentReference ->
-                    Toast.makeText(context, "Your note has been updated", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(context, "Error while adding note", Toast.LENGTH_SHORT).show());
-        }
-        eventManager.notify(updatedCardData);
+        eventManager!!.notify(updatedCardData)
     }
 
-    private CardData collectCardData() {
-        String title = Objects.requireNonNull(this.textHeader.getText()).toString();
-        String description = this.textDescription.getText().toString();
+    private fun collectCardData(): CardData {
+        val title = Objects.requireNonNull(textHeader.text).toString()
+        val description = textDescription.text.toString()
         try {
-            this.picture = cardData.getPicture();
-        }catch (NullPointerException ignored) {
-
+            picture = cardData!!.picture
+        } catch (ignored: NullPointerException) {
         }
-        Date date;
-        try{
-            date = getDateFromDatePicker();}
-        catch (NullPointerException ignored){
-            date = Calendar.getInstance().getTime();
+        val date: Date? = try {
+            dateFromDatePicker
+        } catch (ignored: NullPointerException) {
+            Calendar.getInstance().time
         }
-        return new CardData(title, description,picture, date);
+        return CardData(title, description, picture, date)
     }
 
-    @Override
-    public void onDestroy() {
-        eventManager.notify(cardData);
-        super.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+        eventManager?.notify(cardData)
     }
 
-    private void populateViews() {
-        textHeader.setText(cardData.getHeader());
-        textDescription.setText(cardData.getDescription());
-        textViewDate.setText(new SimpleDateFormat("dd.MMM.yyyy").format(cardData.getDate()));
-        image.setImageResource(cardData.getPicture());
-
+    private fun populateViews() {
+        textHeader.setText(cardData!!.header)
+        textDescription.setText(cardData!!.description)
+        tvDate.text =
+            cardData!!.date?.let { SimpleDateFormat("dd.MMM.yyyy", Locale.getDefault()).format(it) }
+        image.setImageResource(cardData!!.picture)
     }
 
-    private void initTextViews(View view) {
-        image = view.findViewById(R.id.imageViewNote);
-        textViewDate = view.findViewById(R.id.textViewDate);
-        MaterialButton setDateButton = view.findViewById(R.id.buttonSetDate);
-        setDateButton.setOnClickListener(view1 -> showDatePickerDialog());
-        textHeader = view.findViewById(R.id.editTextHeader);
-        textDescription = view.findViewById(R.id.editTextDescription);
-        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 3);
-            }
-        });
-    }
+    private fun initTextViews(view: View) {
+        tvDate = binding.textViewDate
+        textHeader = binding.editTextHeader
+        textDescription = binding.editTextDescription
+        image = binding.imageViewNote
+
+        val setDateButton: MaterialButton = view.findViewById(R.id.buttonSetDate)
+        setDateButton.setOnClickListener { showDatePickerDialog() }
 
 
-
-    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            textViewDate.setText(day + "." + month + "."+ year);
+        val floatingActionButton: FloatingActionButton =
+            view.findViewById(R.id.floatingActionButton)
+        floatingActionButton.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, 3)
         }
-    };
-
-
-    private void showDatePickerDialog() {
-        datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-        cal.get(Calendar.HOUR_OF_DAY);
-        datePickerDialog.show();
     }
 
-
-    private Date getDateFromDatePicker() {
-
-        cal.set(Calendar.YEAR, this.datePickerDialog.getDatePicker().getYear());
-        cal.set(Calendar.MONTH, this.datePickerDialog.getDatePicker().getMonth());
-        cal.set(Calendar.DAY_OF_MONTH, this.datePickerDialog.getDatePicker().getDayOfMonth());
-        return cal.getTime();
+    private var dateSetListener = OnDateSetListener { _, year, month, day ->
+        tvDate.text = "$day.$month.$year"
     }
 
-    private void initButtonDelete(View view) {
-        MaterialButton deleteNoteButton = view.findViewById(R.id.buttonDeleteNote);
-        deleteNoteButton.setOnClickListener(view1 -> new NoteDialogFragment().show(getChildFragmentManager(), "DialogDeleteNote"));
+    private fun showDatePickerDialog() {
+        datePickerDialog = DatePickerDialog(
+            requireContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
+            cal[Calendar.YEAR],
+            cal[Calendar.MONTH],
+            cal[Calendar.DAY_OF_MONTH]
+        )
+        cal[Calendar.HOUR_OF_DAY]
+        datePickerDialog.show()
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK&&data!=null){
-            Uri selectedImage = data.getData();
-            image.setImageURI(selectedImage);
+    private val dateFromDatePicker: Date
+        get() {
+            cal[Calendar.YEAR] = datePickerDialog.datePicker.year
+            cal[Calendar.MONTH] = datePickerDialog.datePicker.month
+            cal[Calendar.DAY_OF_MONTH] = datePickerDialog.datePicker.dayOfMonth
+            return cal.time
+        }
+
+    private fun initButtonDelete(view: View) {
+        val deleteNoteButton: MaterialButton = view.findViewById(R.id.buttonDeleteNote)
+        deleteNoteButton.setOnClickListener {
+            NoteDialogFragment().show(
+                childFragmentManager, "DialogDeleteNote"
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImage = data.data
+            image.setImageURI(selectedImage)
+        }
+    }
+
+    companion object {
+        fun newInstance(cardData: CardData?): NoteFragment {
+            val fragment = NoteFragment()
+            val args = Bundle()
+            args.putParcelable(KEY_PARCEL, cardData)
+            fragment.arguments = args
+            return fragment
+        }
+
+        @JvmStatic
+        fun newInstance(): NoteFragment {
+            return NoteFragment()
         }
     }
 }

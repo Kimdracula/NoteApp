@@ -1,8 +1,7 @@
-package com.my.notes.observer;
+package com.my.notes.observer
 
-import com.my.notes.data.CardData;
+import com.my.notes.data.CardData
 
-public interface EventListener {
-    void updateData (CardData cardData);
+interface EventListener {
+    fun updateData(cardData: CardData?)
 }
-

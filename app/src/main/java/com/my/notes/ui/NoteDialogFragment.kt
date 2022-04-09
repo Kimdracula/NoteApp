@@ -1,71 +1,66 @@
-package com.my.notes.ui;
+package com.my.notes.ui
 
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.google.firebase.firestore.FirebaseFirestore
+import com.my.notes.MainActivity
+import com.my.notes.data.DataSource
+import com.my.notes.observer.EventManager
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.my.notes.MainActivity;
-import com.my.notes.data.DataSource;
-import com.my.notes.observer.EventManager;
-
-public class NoteDialogFragment extends DialogFragment {
-    private final String collectionPath = "NOTES";
-    private EventManager eventManager;
-    DataSource dataSource;
-    int position;
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        MainActivity activity = (MainActivity) requireActivity();
-        if (getArguments() != null && getArguments().containsKey("name")) {
-            Bundle bundle = this.getArguments();
-            position = bundle.getInt("position_to_delete");
+class NoteDialogFragment : DialogFragment() {
+    private val collectionPath = "NOTES"
+    private var eventManager: EventManager? = null
+    private var dataSource: DataSource? = null
+    private var position = 0
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val activity = requireActivity() as MainActivity
+        if (arguments != null && requireArguments().containsKey("name")) {
+            val bundle = this.arguments
+            position = bundle!!.getInt("position_to_delete")
         }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        val builder = AlertDialog.Builder(activity)
         builder.setTitle("Внимание!")
-                .setCancelable(true)
-                .setMessage("Удалить заметку?")
-                .setPositiveButton("Да",(dialog,id)->{
-                    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-                    firebaseFirestore.collection(collectionPath).document(dataSource.getData(position).getId()).delete()
-                            .addOnSuccessListener(unused -> {
-                                        Log.d("Success TAG", "Its ok with reading Firebase ");
-                            }
-                            ).addOnFailureListener(e -> {
-                        Log.d("Error TAG", "get failed with reading Firebase ");
-                            });
-
-
-                    Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show();}
-                )
-                .setNegativeButton("Нет",(dialog,id)->{
-                });
-        return builder.create();
+            .setCancelable(true)
+            .setMessage("Удалить заметку?")
+            .setPositiveButton(
+                "Да"
+            ) { _: DialogInterface?, _: Int ->
+                val firebaseFirestore = FirebaseFirestore.getInstance()
+                firebaseFirestore.collection(collectionPath)
+                    .document(dataSource!!.getData(position).id!!).delete()
+                    .addOnSuccessListener {
+                        Log.d(
+                            "Success TAG",
+                            "Its ok with reading Firebase "
+                        )
+                    }
+                    .addOnFailureListener {
+                        Log.d(
+                            "Error TAG",
+                            "get failed with reading Firebase "
+                        )
+                    }
+                Toast.makeText(activity, "Заметка удалена!", Toast.LENGTH_SHORT).show()
+                TODO("Нужен переход на главный фрагмент")
+            }
+            .setNegativeButton("Нет") { _: DialogInterface?, _: Int -> }
+        return builder.create()
     }
 
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        MainActivity mainActivity = (MainActivity)context;
-        eventManager = mainActivity.getEventManager();
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val mainActivity = context as MainActivity
+        eventManager = mainActivity.eventManager
     }
 
-
-
-    @Override
-    public void onDetach() {
-        eventManager = null;
-        super.onDetach();
+    override fun onDetach() {
+        eventManager = null
+        super.onDetach()
     }
 }

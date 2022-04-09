@@ -1,30 +1,25 @@
-package com.my.notes.observer;
+package com.my.notes.observer
 
-import com.my.notes.data.CardData;
+import com.my.notes.data.CardData
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class EventManager {
-    private List<EventListener> listeners;
-
-    public EventManager() {
-        listeners = new ArrayList<>();
+class EventManager {
+    private val listeners: MutableList<EventListener>
+    fun subscribe(watcher: EventListener) {
+        listeners.add(watcher)
     }
 
-
-    public void subscribe(EventListener watcher) {
-        listeners.add(watcher);
+    private fun unsubscribe(watcher: EventListener) {
+        listeners.remove(watcher)
     }
 
-    public void unsubscribe(EventListener watcher) {
-        listeners.remove(watcher);
-    }
-
-    public void notify(CardData cardData) {
-        for (EventListener watcher : listeners) {
-            watcher.updateData(cardData);
-            unsubscribe(watcher);
+    fun notify(cardData: CardData?) {
+        for (watcher in listeners) {
+            watcher.updateData(cardData)
+            unsubscribe(watcher)
         }
+    }
+
+    init {
+        listeners = ArrayList()
     }
 }

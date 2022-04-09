@@ -1,47 +1,52 @@
-package com.my.notes.ui;
+package com.my.notes.ui
 
-import android.os.Bundle;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
+import com.my.notes.R
+import com.google.android.material.switchmaterial.SwitchMaterial
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.my.notes.R;
-
-
-public class SettingsFragment extends Fragment {
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+class SettingsFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        SwitchMaterial switchMaterial1 = view.findViewById(R.id.switch1);
-        SwitchMaterial switchMaterial2 = view.findViewById(R.id.switch2);
-        SwitchMaterial switchMaterial3 = view.findViewById(R.id.switch3);
-        SwitchMaterial switchMaterial4 = view.findViewById(R.id.switch4);
-
-        switchMaterial1.setOnClickListener(view1 -> Toast.makeText(getContext(),
-                R.string.dark_theme_applyed, Toast.LENGTH_SHORT).show());
-
-        switchMaterial2.setOnClickListener(view12 -> Toast.makeText(getContext(),
-                R.string.light_theme_applyed, Toast.LENGTH_SHORT).show());
-
-        switchMaterial3.setOnClickListener(view13 -> Toast.makeText(getContext(),
-                R.string.purple_theme_applyed, Toast.LENGTH_SHORT).show());
-
-
-        switchMaterial4.setOnClickListener(view14 -> Toast.makeText(getContext(),
-                R.string.blue_theme_applyed, Toast.LENGTH_SHORT).show());
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val switchMaterial1: SwitchMaterial = view.findViewById(R.id.switch1)
+        val switchMaterial2: SwitchMaterial = view.findViewById(R.id.switch2)
+        val switchMaterial3: SwitchMaterial = view.findViewById(R.id.switch3)
+        val switchMaterial4: SwitchMaterial = view.findViewById(R.id.switch4)
+        switchMaterial1.setOnClickListener {
+            Toast.makeText(
+                context,
+                R.string.dark_theme_applyed, Toast.LENGTH_SHORT
+            ).show()
+        }
+        switchMaterial2.setOnClickListener {
+            Toast.makeText(
+                context,
+                R.string.light_theme_applyed, Toast.LENGTH_SHORT
+            ).show()
+        }
+        switchMaterial3.setOnClickListener {
+            Toast.makeText(
+                context,
+                R.string.purple_theme_applyed, Toast.LENGTH_SHORT
+            ).show()
+        }
+        switchMaterial4.setOnClickListener {
+            Toast.makeText(
+                context,
+                R.string.blue_theme_applyed, Toast.LENGTH_SHORT
+            ).show()
+        }
     }
-    }
+}

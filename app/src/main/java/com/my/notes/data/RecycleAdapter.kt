@@ -44,7 +44,7 @@ class RecycleAdapter(private val fragment: Fragment?) : RecyclerView.Adapter<Not
 
 
     override fun getItemCount(): Int {
-        return dataSource!!.size()!!
+        return dataSource!!.size()
     }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener?) {

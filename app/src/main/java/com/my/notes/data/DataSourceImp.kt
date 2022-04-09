@@ -8,9 +8,9 @@ import com.google.firebase.firestore.QuerySnapshot
 class DataSourceImp : DataSource {
     private var firebaseFirestore = FirebaseFirestore.getInstance()
     private var collectionPath = "NOTES"
-    private var notes: ArrayList<CardData?>? = null
+    private var notes: MutableList<CardData> =ArrayList()
 
-    override fun init(cardDataResponse: CardDataResponse?): DataSource {
+    override fun init(cardDataResponse: CardDataResponse): DataSource {
         firebaseFirestore.collection(collectionPath).orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 if (!queryDocumentSnapshots.isEmpty) {
@@ -18,8 +18,10 @@ class DataSourceImp : DataSource {
                     for (d in list) {
                         val c = d.toObject(CardData::class.java)
                         c?.id = d.id
-                        notes?.add(c)
-                        cardDataResponse!!.initialized(this@DataSourceImp)
+                        if (c != null) {
+                            notes.add(c)
+                        }
+                        cardDataResponse.initialized(this@DataSourceImp)
                     }
                 }
             }.addOnFailureListener {
@@ -28,23 +30,25 @@ class DataSourceImp : DataSource {
                     "get failed with reading Firebase "
                 )
             }
-        cardDataResponse?.initialized(this)
+        cardDataResponse.initialized(this)
         return this
     }
 
-    override fun getData(position: Int): CardData? = notes?.get(position)
+    override fun getData(position: Int): CardData = notes[position]
 
-    override fun size(): Int? = notes?.size
+    override fun size(): Int = notes.size
 
 
-    override fun changeData(position: Int, cardData: CardData?) {
-        notes?.set(position, cardData)
+    override fun changeData(position: Int, cardData: CardData) {
+            notes[position] = cardData
+
     }
 
-    override fun addData(cardData: CardData?) {
-        notes?.add(cardData)
+    override fun addData(cardData: CardData) {
+            notes.add(cardData)
+
     }
 
-    override fun deleteData(position: Int): CardData? = notes?.removeAt(position)
+    override fun deleteData(position: Int): CardData = notes.removeAt(position)
 
 }

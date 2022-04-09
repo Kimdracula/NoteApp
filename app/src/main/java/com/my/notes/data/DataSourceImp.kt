@@ -4,14 +4,14 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.my.notes.utils.COLLECTION_PATH
 
 class DataSourceImp : DataSource {
-    private var firebaseFirestore = FirebaseFirestore.getInstance()
-    private var collectionPath = "NOTES"
+    private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var notes: MutableList<CardData> =ArrayList()
 
     override fun init(cardDataResponse: CardDataResponse): DataSource {
-        firebaseFirestore.collection(collectionPath).orderBy("date", Query.Direction.DESCENDING)
+        firebaseFirestore.collection(COLLECTION_PATH).orderBy("date", Query.Direction.DESCENDING)
             .get().addOnSuccessListener { queryDocumentSnapshots: QuerySnapshot ->
                 if (!queryDocumentSnapshots.isEmpty) {
                     val list = queryDocumentSnapshots.documents
@@ -21,6 +21,7 @@ class DataSourceImp : DataSource {
                         if (c != null) {
                             notes.add(c)
                         }
+
                         cardDataResponse.initialized(this@DataSourceImp)
                     }
                 }
@@ -41,12 +42,10 @@ class DataSourceImp : DataSource {
 
     override fun changeData(position: Int, cardData: CardData) {
             notes[position] = cardData
-
     }
 
     override fun addData(cardData: CardData) {
             notes.add(cardData)
-
     }
 
     override fun deleteData(position: Int): CardData = notes.removeAt(position)

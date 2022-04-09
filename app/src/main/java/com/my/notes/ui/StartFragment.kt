@@ -24,9 +24,9 @@ import com.my.notes.databinding.StartFragmentBinding
 class StartFragment : Fragment() {
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var butContinue: MaterialButton
-    private lateinit var buttonSignOut: MaterialButton
-    private lateinit var buttonSignIn: SignInButton
+    private val butContinue: MaterialButton by lazy { binding.buttonContinue }
+    private val buttonSignOut: MaterialButton by lazy { binding.signOutButton }
+    private val buttonSignIn: SignInButton by lazy { binding.signInButton }
     private var _binding: StartFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -41,7 +41,7 @@ class StartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        setClick()
         initGoogleSign()
         enableSign()
     }
@@ -58,11 +58,8 @@ class StartFragment : Fragment() {
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
     }
 
-    private fun initView() {
+    private fun setClick() {
 
-        buttonSignIn = binding.signInButton
-        butContinue = binding.buttonContinue
-        buttonSignOut = binding.signOutButton
         buttonSignIn.setOnClickListener { signIn() }
         buttonSignOut.setOnClickListener { signOut() }
         butContinue.setOnClickListener {
@@ -119,9 +116,11 @@ class StartFragment : Fragment() {
         }
     }
 
-    private fun updateUI(nick: String?, email: String?) {
-        binding.nickname.text = nick
-        binding.email.text = email
+    private fun updateUI(nick: String?, emailUI: String?) {
+        with(binding) {
+            nickname.text = nick
+            email.text = emailUI
+        }
     }
 
     private fun setAvatar(personAvatar: Uri?) {

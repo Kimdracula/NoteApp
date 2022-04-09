@@ -151,12 +151,13 @@ class NoteFragment : Fragment() {
         textHeader = binding.editTextHeader
         textDescription = binding.editTextDescription
         image = binding.imageViewNote
-        binding.buttonSetDate.setOnClickListener { datePickerDialog.show() }
-        binding.floatingActionButton.setOnClickListener {
+        with(binding){
+        buttonSetDate.setOnClickListener { datePickerDialog.show() }
+        floatingActionButton.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, 3)
-        }
+        }}
     }
 
     @SuppressLint("SetTextI18n")

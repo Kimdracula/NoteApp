@@ -1,5 +1,6 @@
 package com.my.notes.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -12,13 +13,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.my.notes.MainActivity
-import com.my.notes.R
 import com.my.notes.data.CardData
 import com.my.notes.databinding.NoteFragmentBinding
 import com.my.notes.observer.EventManager
@@ -32,13 +30,14 @@ class NoteFragment : Fragment() {
     private lateinit var textHeader: TextInputEditText
     private lateinit var textDescription: TextInputEditText
     private var cardData: CardData? = null
-    private lateinit var datePickerDialog: DatePickerDialog
+   private lateinit var datePickerDialog: DatePickerDialog
     private var picture = 0
     private lateinit var image: ImageView
     private var eventManager: EventManager? = null
     private lateinit var cal: Calendar
     private var _binding: NoteFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +51,9 @@ class NoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cal = Calendar.getInstance()
-        initTextViews(view)
-        initButtonDelete(view)
+        initViews()
+        initButtonDelete()
+        initPickerDialog()
         if (arguments != null) {
             cardData = requireArguments().getParcelable(KEY_PARCEL)
             populateViews()
@@ -67,7 +67,7 @@ class NoteFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val mainActivity = context as MainActivity
+        mainActivity = context as MainActivity
         eventManager = mainActivity.eventManager
     }
 
@@ -85,14 +85,14 @@ class NoteFragment : Fragment() {
                 .add(updatedCardData)
                 .addOnSuccessListener {
                     Toast.makeText(
-                        context,
+                        mainActivity,
                         "Your note has been added",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
                 .addOnFailureListener {
                     Toast.makeText(
-                        context,
+                        mainActivity,
                         "Error while updating note",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -101,14 +101,14 @@ class NoteFragment : Fragment() {
             firebaseFirestore.collection(COLLECTION_PATH).document(cardData!!.id!!)
                 .set(updatedCardData).addOnSuccessListener {
                     Toast.makeText(
-                        context,
+                        mainActivity,
                         "Your note has been updated",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
                 .addOnFailureListener {
                     Toast.makeText(
-                        context,
+                        mainActivity,
                         "Error while adding note",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -146,38 +146,34 @@ class NoteFragment : Fragment() {
         image.setImageResource(cardData!!.picture)
     }
 
-    private fun initTextViews(view: View) {
+    private fun initViews() {
         tvDate = binding.textViewDate
         textHeader = binding.editTextHeader
         textDescription = binding.editTextDescription
         image = binding.imageViewNote
-
-        val setDateButton: MaterialButton = view.findViewById(R.id.buttonSetDate)
-        setDateButton.setOnClickListener { showDatePickerDialog() }
-
-
-        val floatingActionButton: FloatingActionButton =
-            view.findViewById(R.id.floatingActionButton)
-        floatingActionButton.setOnClickListener {
+        binding.buttonSetDate.setOnClickListener { datePickerDialog.show() }
+        binding.floatingActionButton.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, 3)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private var dateSetListener = OnDateSetListener { _, year, month, day ->
         tvDate.text = "$day.$month.$year"
     }
 
-    private fun showDatePickerDialog() {
+
+
+     private fun initPickerDialog() {
         datePickerDialog = DatePickerDialog(
-            requireContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
-            cal[Calendar.YEAR],
-            cal[Calendar.MONTH],
-            cal[Calendar.DAY_OF_MONTH]
-        )
+             requireContext(), android.R.style.Theme_Material_Dialog_NoActionBar, dateSetListener,
+             cal[Calendar.YEAR],
+             cal[Calendar.MONTH],
+             cal[Calendar.DAY_OF_MONTH]
+         )
         cal[Calendar.HOUR_OF_DAY]
-        datePickerDialog.show()
     }
 
     private val dateFromDatePicker: Date
@@ -188,9 +184,8 @@ class NoteFragment : Fragment() {
             return cal.time
         }
 
-    private fun initButtonDelete(view: View) {
-        val deleteNoteButton: MaterialButton = view.findViewById(R.id.buttonDeleteNote)
-        deleteNoteButton.setOnClickListener {
+    private fun initButtonDelete() {
+      binding.buttonDeleteNote.setOnClickListener {
             NoteDialogFragment().show(
                 childFragmentManager, "DialogDeleteNote"
             )
